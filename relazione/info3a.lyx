@@ -1,0 +1,2066 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{graphicx}
+\usepackage{hyperxmp}
+\usepackage{dtklogos}
+\usepackage{listings}
+
+\hypersetup{
+    pdftitle = {Progetti di Informatica III-A},
+    pdfauthor = {Enrico Bacis},
+    pdfsubject = {Elaborati e Progetti del corso di Informatica III-A},
+    pdfkeywords = {UniBG, Ingegneria, Informatica, Progetti},
+    pdfcreator = {Latex / LyX},
+    pdfcopyright = {Creative Commons (CC BY-NC-SA 3.0) 2013 by Enrico Bacis. Some rights reserved.}
+}
+
+\lstset{basicstyle=\small,
+               columns=[c]flexible,
+               frame=single}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 5cm*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\size giant
+Progetti di Informatica III-A
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size huge
+Enrico Bacis
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size large
+- 
+\shape italic
+Università degli Studi di Bergamo
+\shape default
+ -
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Elaborati e Progetti di Enrico Bacis ( 
+\begin_inset CommandInset href
+LatexCommand href
+name "enrico.bacis@gmail.com"
+target "enrico.bacis@gmail.com"
+type "mailto:"
+
+\end_inset
+
+ ) del corso di Informatica III-A tenuto dal Professor Angelo Gargantini
+ presso l'Università degli Studi di Bergamo nell'anno accademico 2012/2013.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questi elaborati sono distribuiti sotto licenza Creative Commons 
+\begin_inset CommandInset href
+LatexCommand href
+name "BY-NC-SA 3.0"
+target "http://creativecommons.org/licenses/by-nc-sa/3.0/deed.it"
+
+\end_inset
+
+.
+ È possibile redistribuire e modificare questo file mantenendo però queste
+ note e senza cambiare il tipo di licenza.
+ Non è possibile far pagare questo file o derivati di questo file.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+href{http://creativecommons.org/licenses/by-nc-sa/3.0/deed.it}{
+\backslash
+includegraphics[width=5em]{{by-nc-sa.eu}.pdf}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Versione del Documento: 0.3 - 20130112
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{roman}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Cyclone
+\end_layout
+
+\begin_layout Standard
+Cyclone è un dialetto safe del C che permette di prevenire diversi tipi
+ di errori e problemi di sicurezza molto comuni in C come buffer overflow,
+ stringhe non terminate e dangling pointers.
+\end_layout
+
+\begin_layout Standard
+Per ottenere questi risultati il linguaggio C è stato esteso con caratteristiche
+ come il 
+\shape italic
+garbage collector
+\shape default
+, che solleva il programmatore dal dover esplicitamente deallocare la memoria
+ con le chiamate 
+\series bold
+free()
+\series default
+, riducendo la possibilità di incorrere in dangling pointer o di memoria
+ non deallocata al termine del suo utilizzo; il garbage collector infatti
+ libera automaticamente la memoria utilizzata da oggetti di cui non esistono
+ più puntatori (e che quindi sono safe da cancellare).
+\end_layout
+
+\begin_layout Standard
+Altra caratteristica importante di Cyclone sono i qualificatori dei puntatori
+ che meglio specificano i possibili valori assunti dai puntatori e aggiungono
+ controlli sull'utilizzo degli stessi.
+ In questo modo Cyclone permette di eseguire in sicurezza operazioni che
+ riguardano i puntatori come aritmetica sui puntatori e gestione di stringhe.
+ Nel seguito della relazione verranno presi in esame i diversi qualificatori
+ e si illustrerà come sono stati usati nel progetto.
+\end_layout
+
+\begin_layout Section
+Descrizione del progetto
+\end_layout
+
+\begin_layout Standard
+Il progetto sviluppato è una libreria per la crittografia di stringhe utilizzand
+o cifrari a sostituzione con chiavi decise dall'utente.
+\end_layout
+
+\begin_layout Standard
+La libreria non è stata sviluppata con un solo cifrario in mente, ma è pensata
+ in maniera modulare, in modo che sia facile implementare l'utilizzo di
+ diversi cifrari di sostituzione e anche crearne di nuovi.
+\end_layout
+
+\begin_layout Standard
+Come esempi sono state scritte le funzioni per cifrare testi utilizzando
+ il cifrario di Cesare e il cifrario ROT13 oltre al caso di chiave decisa
+ dall'utente.
+\end_layout
+
+\begin_layout Standard
+Oltre a questo sono anche state re-implementate in Cyclone alcune funzioni
+ di supporto per le stringhe come strcpy e strncpy in maniera safe a differenza
+ delle loro controparti in C.
+ 
+\end_layout
+
+\begin_layout Subsection
+Scelta e motivazioni
+\end_layout
+
+\begin_layout Standard
+E' stato scelto di creare una libreria e non un programma perché trattandosi
+ di un piccolo progetto, di seguire l'approccio migliore per la stesura
+ di un programma specifico, ovvero quella di creare un insieme di funzionalità
+ che non siano dipendenti dal programma stesso ma che possano essere riutilizzat
+e anche in altri progetti.
+\end_layout
+
+\begin_layout Standard
+E' stata dedicata particolare attenzione anche alla suddivisione delle funzioni
+ in modo da seguire un approccio DRY
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Don't Repeat Yourself
+\end_layout
+
+\end_inset
+
+ e una buona architettura del software individuando i casi generali e utilizzand
+o questi nella codifica delle funzioni a più specifiche.
+\end_layout
+
+\begin_layout Standard
+Il codice è stato scritto direttamente in Cyclone senza effettuare porting,
+ per vedere quanto sforzo sia necessario per un programmatore C iniziare
+ un nuovo progetto avendo cura di scriverlo in un linguaggio Safe come Cyclone.
+ Si è quindi voluto verificare quanto la stesura di codice nativo in Cyclone
+ sia più complessa di quella in C (non è infatti possibile pensare di scrivere
+ nuovi applicativi avendo una fase di scrittura in C e una di correzione
+ in Cyclone).
+\end_layout
+
+\begin_layout Standard
+Vista la semplicità di utilizzo delle caratteristiche di Cyclone e la sua
+ somiglianza con C, lo sforzo richiesto al programmatore è minimo e i concetti
+ vengono assimilati in breve tempo.
+\end_layout
+
+\begin_layout Subsection
+Funzionalità principali 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+da completare
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Utilities
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+min
+\shape default
+, 
+\shape italic
+abs
+\shape default
+, 
+\shape italic
+islower
+\shape default
+, 
+\shape italic
+isupper
+\shape default
+, 
+\shape italic
+isletter
+\shape default
+, 
+\shape italic
+isdigit
+\end_layout
+
+\begin_layout Subsubsection
+String Utilities
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+safe_strncpy
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Copia n caratteri dalla stringa sorgente alla destinazione, o meno se
+ la destinazione è più piccola.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+char * @notnull @fat dst, const char * @notnull @fat src, unsigned int n
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+int
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+\shape italic
+safe_strcpy
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Copia tutto il contenuto della stringa sorgente in quella destinazione,
+ o meno se la destinazione è più piccola.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+char * @notnull @fat dst, const char * @notnull @fat src
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+int
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+\shape italic
+strclone
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Alloca una nuova stringa della dimensione della stringa sorgente e ve
+ ne copia il contenuto.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat src
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+strswap
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Restituisce una nuova stringa che è il risultato dell'esecuzione della
+ lista di swap applicati alla stringa sorgente.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat src, int * @notnull @numelts(2) ?swap
+\end_layout
+
+\begin_layout Itemize
+Il secondo parametro è un array di array di 2 elementi, verrà meglio descritto
+ successivamente nella sezione relativa all'utilizzo dei 
+\series bold
+Bounded Pointers
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat 
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Cipher Utilities
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\shape italic
+charencrypt
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Ritorna il carattere 
+\shape italic
+c
+\shape default
+ (se alfabetico) nella sua controparte criptata secondo l'algoritmo di sostituzi
+one con offset 
+\shape italic
+off 
+\shape default
+in avanti.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+char c, int off
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+strencrypt
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Ritorna una nuova stringa nella quale i caratteri alfabetici sono criptati
+ secondo l'algoritmo di sostituzione con chiave 
+\shape italic
+key
+\shape default
+.
+ Se la chiave è più corta della stringa, essa viene re-iterata, se la chiave
+ è vuota, viene restituito un errore a schermo (non bloccante) e ritornata
+ una stringa vuota.
+ Questo tipo di codifica è nota sia come codifica a sostituzione che col
+ nome di Codifica di Vigènere.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str, int * @notnull @fat key
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+strdecrypt
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Ritorna la stringa decrittata con chiave key (vedi strencrypt).
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str, int * @notnull @fat key
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+str2key
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Restituisce un array di interi a partire da una stringa.
+ La conversione è una ASCII shiftata in modo da preservare il fatto che
+ il carattere '0' sia mappato sul numero 0.
+ Questa funzione è utile per genere chiavi per la funzione strencrypt a
+ partire da stringhe.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+int ?
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Ciphers
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+cesar
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Restituisce la stringa cifrata con il cifrario di Cesare con offset 
+\shape italic
+off
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str, int off
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+rot13
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Restituisce la stringa cifrata con il cifrario ROT13
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Caso specifico del cifrario di Cesare con offset 13.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "it.wikipedia.org/wiki/ROT13"
+target "http://it.wikipedia.org/wiki/ROT13"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+derot13
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\bar under
+Descrizione
+\bar default
+: Restituisce la stringa decifrata con il cifrario ROT13
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Parametri
+\bar default
+: 
+\shape italic
+const char * @notnull @fat str
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Tipo di ritorno
+\bar default
+: 
+\shape italic
+char * @notnull @fat 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Costrutti Cyclone utilizzati
+\end_layout
+
+\begin_layout Standard
+Vediamo ora in dettaglio quali sono i costrutti di Cyclone utilizzati nel
+ progetto.
+\end_layout
+
+\begin_layout Subsection
+Puntatori *
+\end_layout
+
+\begin_layout Standard
+Cyclone permette l'utilizzo di normali puntatori * con le seguenti modifiche
+ rispetto a C:
+\end_layout
+
+\begin_layout Itemize
+Controllo se il puntatore è nullo ad ogni de-reference dello stesso (previene
+ Segmentation Fault)
+\end_layout
+
+\begin_layout Itemize
+Cast vietato da int a puntatore (previene Out of Bounds)
+\end_layout
+
+\begin_layout Itemize
+Aritmetica dei puntatori vietata (previene Buffer Overflow / Overrun e Out
+ of Bounds)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In realtà quando viene richiesta si procede generando un warning, effettuando
+ un cast ad un puntatore @fat con size 1 (vedi qualificatore @fat) e quindi
+ successivamente avremo un errore in runtime.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Cyclone quindi mette a disposizione dei qualificatori per puntatori che
+ meglio specificano gli utilizzi che si possono fare degli stessi.
+\end_layout
+
+\begin_layout Subsection
+Qualificatore @notnull (puntatore @)
+\end_layout
+
+\begin_layout Standard
+Controllare ad ogni de-reference che il puntatore non sia nullo può essere
+ dispendioso.
+ Con questo qualificatore possiamo effettuare il controllo all'assegnamento
+ del valore e evitarlo al suo utilizzo.
+ E' uno dei più utili ed utilizzati qualificatori di Cyclone insieme a @fat.
+\end_layout
+
+\begin_layout Standard
+E' stato utilizzato praticamente ovunque nel codice come si può vedere nella
+ sezione Funzionalità.
+\end_layout
+
+\begin_layout Standard
+Può essere espresso sia con: 
+\series bold
+* @notnull
+\series default
+ che semplicemente con 
+\series bold
+@
+\end_layout
+
+\begin_layout Subsection
+Qualificatore @fat (puntatore ?)
+\end_layout
+
+\begin_layout Standard
+Questo qualificatore impone che il puntatore su cui viene applicato mantenga
+ anche l'informazione sul numero degli elementi dell'array.
+ Questo dato è accessibile utilizzando la funzione 
+\series bold
+numelts(ptr)
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Permettono aritmetica sui puntatori (con controllo che non si esca dall'array)
+\end_layout
+
+\begin_layout Itemize
+Tutti gli array possono essere convertiti a @fat (e generalmente viene fatto
+ essendo molto utile).
+\end_layout
+
+\begin_layout Itemize
+Conversione da * a ? automatica con size=1 e warning
+\end_layout
+
+\begin_layout Itemize
+Conversione da ? a * non problematica (bounds check)
+\end_layout
+
+\begin_layout Itemize
+Conversione da ? a @ con bounds check e null check
+\end_layout
+
+\begin_layout Standard
+Questo qualificatore è particolarmente utile per poter conoscere la dimensione
+ delle stringhe senza dover utilizzare strlen (e i problemi legati all'uso
+ del terminatore 
+\backslash
+0 generati da questa funzione).
+\end_layout
+
+\begin_layout Standard
+Come per il puntatore @notnull, anche questo è stato utilizzato praticamente
+ ovunque nel codice, ogni qualvolta ci fosse una stringa.
+\end_layout
+
+\begin_layout Standard
+Può essere espresso sia con: 
+\series bold
+* @fat
+\series default
+ che semplicemente con 
+\series bold
+?
+\end_layout
+
+\begin_layout Standard
+Esempio con array di interi:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+int ?str2key(const char * @notnull @fat str) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return new { for i < numelts(str)-1: *(str+i) - '0' };
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In questo caso non è stato utilizzato anche il qualificatore @notnull perché
+ è possibile che la chiave sia nulla.
+ Il problema infatti non sta nel creare una chiave nulla, che deve essere
+ possibile, ma nel suo utilizzo.
+\end_layout
+
+\begin_layout Subsection
+Qualificatore @zeroterm
+\end_layout
+
+\begin_layout Standard
+Qualificatori utilizzati per indicare che gli array a cui puntano sono terminati
+ da caratteri 
+\backslash
+0.
+ Utili per la gestione delle stringhe, infatti tutti i puntatori a 
+\shape italic
+char
+\shape default
+, fatta eccezione di 
+\shape italic
+char[]
+\shape default
+ sono di default 
+\shape italic
+@zeroterm
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+Esiste anche il qualificatore 
+\shape italic
+@nozeroterm
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+Permette l'aritmetica dei puntatori (controllando che non vi siano dei terminato
+ri di stringa all'interno), ma questo può diventare dispendioso se non utilizzat
+o in combinazione con @fat.
+\end_layout
+
+\begin_layout Subsection
+Bounded Pointers - Qualificatore @numelts(n)
+\end_layout
+
+\begin_layout Standard
+Indica che il puntatore deve puntare ad un array con esattamente quel numero
+ di elementi.
+ Se l'array contiene più elementi viene generato un warning, se ne contiene
+ di meno un errore.
+\end_layout
+
+\begin_layout Standard
+E' abbastanza difficile trovare come utilizzarlo, ma con un buon utilizzo
+ si presta anche a sostituire delle struct create ad hoc per certe situazioni.
+\end_layout
+
+\begin_layout Standard
+Nel progetto ad esempio è stato usato per indicare che l'argomento della
+ funzione strswap è un'array di array di due elementi, quindi un array di
+ coppie (gli elementi della stringa su cui verrà effettuato lo swap).
+ Un comportamento simile in C era ottenibile solamente creando una struttura
+ 
+\begin_inset Quotes eld
+\end_inset
+
+coppia
+\begin_inset Quotes erd
+\end_inset
+
+ che contenesse due interi.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strswap(const char * @notnull @fat src, int * @notnull
+ @numelts(2) ?swap) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    char * @notnull @fat dst = strclone(src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (int i = 0; i < numelts(swap); i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        dst[swap[i][0]] = src[swap[i][1]];
+\end_layout
+
+\begin_layout Plain Layout
+
+        dst[swap[i][1]] = src[swap[i][0]];
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    return dst;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Con l'utilizzo di questi puntatori si possono anche creare funzioni che
+ ricevono come parametri un array di dimensioni non note a compile time
+ e la sua dimensione nel modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+int f(tag_t num, int [num])
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo tuttavia non sembra essere molto utile visto che si possono utilizzare
+ i puntatori @fat.
+\end_layout
+
+\begin_layout Subsection
+calloc() e Garbage Collector
+\end_layout
+
+\begin_layout Standard
+La funzione malloc() di C, non garantisce che la memoria allocata sia inizializz
+ata.
+ La funzione calloc() invece azzera tutti i byte della memoria allocata.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strclone(const char * @notnull @fat src) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    int n = numelts(src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    char * @notnull @fat dst = calloc(n, sizeof(char));
+\end_layout
+
+\begin_layout Plain Layout
+
+    int m = safe_strcpy(dst, src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    return dst;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si è fatto utilizzo del garbage collector, infatti tutte le variabili allocate
+ nello heap non sono liberate attraverso delle chiamate a 
+\series bold
+free()
+\series default
+ ma sono lasciate gestire in maniera automatica dal Garbage Collector, che
+ si occuperà di liberare la memoria quando le variabili non sono più referenziat
+e da alcun puntatore.
+\end_layout
+
+\begin_layout Subsection
+Array Comprehension
+\end_layout
+
+\begin_layout Standard
+E' stato piacevole trovare in Cyclone la funzionalità di Array Comprehension,
+ che permette di scrivere, o meglio descrivere delle liste a partire dalle
+ loro relazioni con i numeri da 0 a n.
+ Ad esempio si può ottenere la lista dei numeri pari da 0 a 200 moltiplicando
+ per 2 i numeri da 0 a 100.
+ Questa caratteristica è stata spesso usata nel progetto al posto dei cicli
+ for, in modo che il codice sia più facile ed intuitivo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strdecrypt(const char * @notnull @fat str, int * @notnull
+ @fat key) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return strencrypt(str, new { for i < numelts(key): -key[i] });
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questa funzione è simile alle List Comprehension in Python, anche se queste
+ ultime sono di gran lunga più potenti.
+\end_layout
+
+\begin_layout Subsection
+let
+\end_layout
+
+\begin_layout Standard
+Il costrutto 
+\series bold
+let
+\series default
+ permette di dichiarare una variabile e assegnarvi un valore senza dover
+ specificare il tipo della variabile; infatti verrà fatta inferenza sul
+ tipo del valore assegnato per poi dichiarare la variabile in modo che possa
+ contenere quel dato.
+ Questo comportamento è da un certo punto di vista simile a quello adottato
+ dai linguaggi con dynamic typing e risulta molto utile in un linguaggio
+ come Cyclone dove scrivere il tipo della variabile con tutti i suoi qualificato
+ri può essere dispendioso.
+ In questo modo si lascia al compilatore la scelta del tipo adatto sollevando
+ il programmatore dalla scelta e velocizzando l'utilizzo.
+ Si può scrivere quindi:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+let str = rot13("hello world");
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+invece che:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+char * @notnull @fat str = rot13("hello world");
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Supporto allo sviluppo
+\end_layout
+
+\begin_layout Standard
+Il supporto allo sviluppo è stato una parte centrale del lavoro ed ha impegnato
+ diverso tempo per poter trovare dei modi che rendano l'utilizzo di Cyclone
+ più facile anche per altri studenti del corso.
+ Cyclone infatti è stato purtroppo discontinuato e il suo utilizzo è reso
+ difficile dai seguenti problemi:
+\end_layout
+
+\begin_layout Enumerate
+Necessita la compilazione dei sorgenti per funzionare con GCC 4 e superiori
+\end_layout
+
+\begin_layout Enumerate
+Non funziona su architetture a 64 bit
+\end_layout
+
+\begin_layout Enumerate
+Funziona solo su piattaforme UNIX (e Windows utilizzando emulatori di shell
+ UNIX come CYGWIN)
+\end_layout
+
+\begin_layout Standard
+Ognuno di queste voci ha dato spunto a delle riflessioni che hanno portato
+ a dei sottoprogetti (a volte più corposi dei progetti stessi) che si spera
+ possano servire per i futuri studenti del corso.
+\end_layout
+
+\begin_layout Subsection
+Cyclone su Ubuntu
+\end_layout
+
+\begin_layout Standard
+Per ovviare al problema di compilazione con GCC 4 possibile solo con i sorgenti
+ scaricabili dal repository SVN di Cyclone, questi ultimi sono stati compilati
+ per Ubuntu 32 bit e pacchettizzati in un pacchetto software .deb che necessita
+ solo di un doppio click per installare l'intera toolchain Cyclone.
+ Il pacchetto è già stato fornito al docente e utilizzato da diversi studenti
+ (è infatti attualmente il metodo più facile per utilizzare Cyclone).
+\end_layout
+
+\begin_layout Subsection
+Autocyc
+\end_layout
+
+\begin_layout Standard
+Basandosi sul sistema inotify che permette di eseguire delle operazioni
+ automaticamente quando si modifica un file, la sincronizzazione con Ubuntu
+ One (software simile a Dropbox con sincronizzazione immediata via LAN)
+ e il linguaggio di scripting BASH per la shell di Linux, è stato scritto
+ un piccolo tool, 
+\series bold
+autocyc
+\series default
+, che permette di controllare un file, compilarlo e, in caso la compilazione
+ sia positiva, eseguirlo automaticamente.
+\end_layout
+
+\begin_layout Standard
+Questo procedimento è utile quando si vuole programmare in Cyclone su una
+ macchina a 64 bit, compilando automaticamente su un'altra macchina, fisica
+ o virtuale, a 32 bit ogni volta che il file viene modificato.
+\end_layout
+
+\begin_layout Section
+Cyclone Remote Compiler [Bonus]
+\end_layout
+
+\begin_layout Standard
+Nonostante i due sforzi descritti precedentemente per permettere a me e
+ ad altri di compilare correttamente codice Cyclone sulle proprie macchine,
+ non ero ancora soddisfatto della semplicità di utilizzo, e non prospettando
+ previsioni rosee per il porting a 64 bit di questo linguaggio ho deciso
+ di creare 
+\series bold
+Cyclone Remote Compiler
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Cyclone Remote Compiler è una applicazione web che permette a chiunque voglia
+ scrivere del codice in Cyclone di compilarlo remotamente, senza dover installar
+e nulla sul proprio PC se non un Browser Web e in maniera indipendente dall'arch
+itettura e dal sistema operativo utilizzato.
+\end_layout
+
+\begin_layout Subsection
+Funzionalità
+\end_layout
+
+\begin_layout Standard
+Cyclone Remote Compiler è, al momento della stesura di questo documento,
+ giunto alla versione 1.5 e permette di:
+\end_layout
+
+\begin_layout Itemize
+Compilare un singolo file .cyc di dimensioni fino a 200 kB.
+\end_layout
+
+\begin_layout Itemize
+Tempo massimo di compilazione e di esecuzione 5+5 secondi, dopo i quali
+ l'applicazione si presume in loop e viene terminata segnalando il motivo
+ dell'arresto.
+\end_layout
+
+\begin_layout Itemize
+Visualizzazione dell'output di compilazione e, se non vi sono errori, di
+ quello di esecuzione.
+\end_layout
+
+\begin_layout Itemize
+Mantenimento della path del file da caricare durante la sessione, in questo
+ modo per ricompilare basta modificare il file e cliccare su 
+\begin_inset Quotes eld
+\end_inset
+
+compile
+\begin_inset Quotes erd
+\end_inset
+
+ senza dover riselezionare il file.
+\end_layout
+
+\begin_layout Itemize
+Last but not the least: cura grafica dell'applicazione con animazioni e
+ syntax highlight del codice sorgente inviato.
+\end_layout
+
+\begin_layout Subsection
+Tecnologie
+\end_layout
+
+\begin_layout Standard
+Le tecnologie utilizzate per questo progetto sono state:
+\end_layout
+
+\begin_layout Description
+HTML
+\begin_inset space ~
+\end_inset
+
+5,
+\begin_inset space ~
+\end_inset
+
+CSS
+\begin_inset space ~
+\end_inset
+
+3.0,
+\begin_inset space ~
+\end_inset
+
+Javascript
+\begin_inset space ~
+\end_inset
+
+e
+\begin_inset space ~
+\end_inset
+
+jQuery Per la parte di presentazione e animazione della pagina web e per
+ il controllo del file sorgente.
+\end_layout
+
+\begin_layout Description
+AJAX
+\begin_inset space ~
+\end_inset
+
+e
+\begin_inset space ~
+\end_inset
+
+XHR2 Per l'invio del file sorgente in maniera trasparente all'utente.
+\end_layout
+
+\begin_layout Description
+Apache
+\begin_inset space ~
+\end_inset
+
+e
+\begin_inset space ~
+\end_inset
+
+PHP Per l'elaborazione del file sorgente, per richiamare il compilatore,
+ eseguire il compilato e restituire i risultati di compilazione ed esecuzione.
+\end_layout
+
+\begin_layout Description
+Github Per l'hosting del codice sorgente di Cyclone Remote Compiler.
+\end_layout
+
+\begin_layout Description
+AWS Amazon Web Services per l'hosting temporaneo dell'applicazione.
+\end_layout
+
+\begin_layout Description
+Google
+\begin_inset space ~
+\end_inset
+
+Prettify Per la funzionalità di Syntax Highlighting del codice sorgente
+ visualizzato.
+\end_layout
+
+\begin_layout Description
+NO-IP Per l'assegnazione di un indirizzo pubblico per raggiungere la macchina
+ virtuale hostata su Amazon Web Services.
+\end_layout
+
+\begin_layout Subsection
+Conclusione
+\end_layout
+
+\begin_layout Standard
+Cyclone Remote Compiler è disponibile su github per chiunque voglia contribuire
+ e, al momento della stesura di questo elaborato, è raggiungibile al sito:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset CommandInset href
+LatexCommand href
+name "http://cyclone.hopto.org"
+target "http://cyclone.hopto.org"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si spera che Cyclone Remote Compiler possa diventare un valido strumento
+ di aiuto all'insegnamento, allo sviluppo e al testing di Cyclone.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Codice Sorgente
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#include <stdio.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int min(int a, int b) { return (a < b) ? a : b; }
+\end_layout
+
+\begin_layout Plain Layout
+
+int abs(int a) { return (a < 0) ? -a : a; }
+\end_layout
+
+\begin_layout Plain Layout
+
+int islower(char c) { return (c >= 'a') && (c <= 'z'); }
+\end_layout
+
+\begin_layout Plain Layout
+
+int isupper(char c) { return (c >= 'A') && (c <= 'Z'); }
+\end_layout
+
+\begin_layout Plain Layout
+
+int isletter(char c) { return islower(c) || isupper(c); }
+\end_layout
+
+\begin_layout Plain Layout
+
+int isdigit(char c) { return (c >= '0') && (c <= '9'); }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int safe_strncpy(char * @notnull @fat dst, const char * @notnull @fat src,
+ unsigned int n) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    int m = min(min(numelts(dst), numelts(src))-1, n);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (int i = 0; i < m; i++)
+\end_layout
+
+\begin_layout Plain Layout
+
+        *(dst+i) = *(src+i);
+\end_layout
+
+\begin_layout Plain Layout
+
+    return m;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int safe_strcpy(char * @notnull @fat dst, const char * @notnull @fat src)
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+    int n = min(numelts(dst), numelts(src));
+\end_layout
+
+\begin_layout Plain Layout
+
+    return safe_strncpy(dst, src, n-1);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strclone(const char * @notnull @fat src) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    int n = numelts(src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    char * @notnull @fat dst = calloc(n, sizeof(char));
+\end_layout
+
+\begin_layout Plain Layout
+
+    int m = safe_strcpy(dst, src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    return dst;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char charencrypt(char c, int off) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    off = ((off % 26) + 26) % 26;
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (isletter(c)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        int begin = islower(c) ? 'a' : 'A';
+\end_layout
+
+\begin_layout Plain Layout
+
+        c = (char)((c - begin + off) % 26 + begin);
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    return c;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strencrypt(const char * @notnull @fat str, int * @notnull
+ @fat key) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if(!numelts(key)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        printf("ERROR: KEY MUST BE AT LEAST 1 CHARACTER LONG");
+\end_layout
+
+\begin_layout Plain Layout
+
+        return strclone("");
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    return new {
+\end_layout
+
+\begin_layout Plain Layout
+
+        for i < numelts(str)-1:
+\end_layout
+
+\begin_layout Plain Layout
+
+        charencrypt(*(str+i), key[i % numelts(key)])
+\end_layout
+
+\begin_layout Plain Layout
+
+    };
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strdecrypt(const char * @notnull @fat str, int * @notnull
+ @fat key) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return strencrypt(str, new { for i < numelts(key): -key[i] });
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+int ?str2key(const char * @notnull @fat str) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return new { for i < numelts(str)-1: *(str+i) - '0' };
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat cesar(const char * @notnull @fat str, int off) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return strencrypt(str, new {off});
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat rot13(const char * @notnull @fat str) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return cesar(str, 13);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat derot13(const char * @notnull @fat str) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    return cesar(str, -13);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+char * @notnull @fat strswap(const char * @notnull @fat src, int * @notnull
+ @numelts(2) ?swap) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    char * @notnull @fat dst = strclone(src);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (int i = 0; i < numelts(swap); i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        dst[swap[i][0]] = src[swap[i][1]];
+\end_layout
+
+\begin_layout Plain Layout
+
+        dst[swap[i][1]] = src[swap[i][0]];
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    return dst;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

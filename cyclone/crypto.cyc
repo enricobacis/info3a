@@ -1,0 +1,94 @@
+#include <stdio.h>
+
+int min(int a, int b) { return (a < b) ? a : b; }
+
+int abs(int a) { return (a < 0) ? -a : a; }
+
+int islower(char c) { return (c >= 'a') && (c <= 'z'); }
+
+int isupper(char c) { return (c >= 'A') && (c <= 'Z'); }
+
+int isletter(char c) { return islower(c) || isupper(c); }
+
+int isdigit(char c) { return (c >= '0') && (c <= '9'); }    
+
+int safe_strncpy(char * @notnull @fat dst, const char * @notnull @fat src, unsigned int n) {
+    int m = min(min(numelts(dst), numelts(src))-1, n);
+    for (int i = 0; i < m; i++)
+        *(dst+i) = *(src+i);
+    return m;
+}
+
+int safe_strcpy(char * @notnull @fat dst, const char * @notnull @fat src) {
+    int n = min(numelts(dst), numelts(src));
+    return safe_strncpy(dst, src, n-1);
+}
+
+char * @notnull @fat strclone(const char * @notnull @fat src) {
+    int n = numelts(src);
+    char * @notnull @fat dst = calloc(n, sizeof(char));
+    int m = safe_strcpy(dst, src);
+    return dst;
+}
+
+char * @notnull @fat strswap(const char * @notnull @fat src, int * @notnull @numelts(2) ?swap) {
+    char * @notnull @fat dst = strclone(src);
+    for (int i = 0; i < numelts(swap); i++) {
+        dst[swap[i][0]] = src[swap[i][1]];
+        dst[swap[i][1]] = src[swap[i][0]];
+    }
+    return dst;
+}
+
+char charencrypt(char c, int off) {
+    off = ((off % 26) + 26) % 26;
+    if (isletter(c)) {
+        int begin = islower(c) ? 'a' : 'A';
+        c = (char)((c - begin + off) % 26 + begin);
+    }
+    return c;
+}
+
+char * @notnull @fat strencrypt(const char * @notnull @fat str, int * @notnull @fat key) {
+    if(!numelts(key)) {
+        printf("\nERROR: KEY MUST BE AT LEAST 1 CHARACTER LONG\n");
+        return strclone("");
+    }
+    return new {
+        for i < numelts(str)-1:
+        charencrypt(*(str+i), key[i % numelts(key)]) };
+}
+
+char * @notnull @fat strdecrypt(const char * @notnull @fat str, int * @notnull @fat key) {
+    return strencrypt(str, new { for i < numelts(key): -key[i] });
+}
+
+int ?str2key(const char * @notnull @fat str) {
+    return new { for i < numelts(str)-1: *(str+i) - '0' };
+}
+
+char * @notnull @fat cesar(const char * @notnull @fat str, int off) {
+    return strencrypt(str, new {off});
+}
+
+char * @notnull @fat rot13(const char * @notnull @fat str) {
+    return cesar(str, 13);
+}
+
+char * @notnull @fat derot13(const char * @notnull @fat str) {
+    return cesar(str, -13);
+}
+
+void printstr(const char * @fat @notnull str) {
+    printf("%s\n", str);
+}
+
+int main(int argc, char ??argv) {
+    let str = strclone("hello world");
+    printstr(str);
+    printstr(strswap(str, new {new {0,6}, new {1,7}}));
+    printstr(strencrypt(str, str2key("123456789")));
+    printstr(rot13(str));
+    return 0;
+}
+
