@@ -39,9 +39,9 @@ void Studente::printInfo() {
 }
 
 void Studente::printVoti () {
-	cout << "Voti:" << endl;
-	voti->print();
-	cout << "-----------------------" << endl;
+	cout << "Voti:" << endl
+		 << voti
+		 << "-----------------------" << endl;
 }
 
 unsigned short Studente::operator[] (string const& corso) {

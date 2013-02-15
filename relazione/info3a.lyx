@@ -8,6 +8,7 @@
 \usepackage{hyperxmp}
 \usepackage{dtklogos}
 \usepackage{listings}
+\usepackage{hyperref}
 
 \hypersetup{
     pdftitle = {Progetti di Informatica III-A},
@@ -21,6 +22,10 @@
 \lstset{basicstyle=\small,
                columns=[c]flexible,
                frame=single}
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother  
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -55,7 +60,7 @@
 \pdf_colorlinks false
 \pdf_backref false
 \pdf_pdfusetitle true
-\papersize default
+\papersize a4paper
 \use_geometry true
 \use_amsmath 1
 \use_esint 1
@@ -226,7 +231,11 @@ includegraphics[width=5em]{{by-nc-sa.eu}.pdf}}
 
 \begin_layout Standard
 \align right
-Versione del Documento: 0.3 - 20130112
+Versione del Documento: 0.6
+\series bold
+b
+\series default
+ - 20130212
 \end_layout
 
 \begin_layout Standard
@@ -409,16 +418,6 @@ Vista la semplicità di utilizzo delle caratteristiche di Cyclone e la sua
 
 \begin_layout Subsection
 Funzionalità principali 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-da completare
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -1660,12 +1659,1628 @@ Si spera che Cyclone Remote Compiler possa diventare un valido strumento
  di aiuto all'insegnamento, allo sviluppo e al testing di Cyclone.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part
 C++
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
+Descrizione del progetto
+\end_layout
 
+\begin_layout Standard
+Il progetto sviluppato rappresenta la struttura di una Università, con tre
+ tipi di persone che vi interagiscono:
+\end_layout
+
+\begin_layout Description
+Studente può conseguire delle votazioni relative ai corsi.
+\end_layout
+
+\begin_layout Description
+Professore può insegnare dei corsi.
+\end_layout
+
+\begin_layout Description
+Dottorando riunisce in sé sia le caratteristiche dello studente che quelle
+ del professore.
+\end_layout
+
+\begin_layout Standard
+Tutte e tre ereditano (nel caso di Dottorando in maniera indiretta) dalla
+ classe astratta Persona.
+\end_layout
+
+\begin_layout Standard
+Quasi tutte le funzionalità sono svolte attraverso la classe University,
+ che permette di immatricolare nuovi studenti, docenti e dottorandi.
+\end_layout
+
+\begin_layout Subsection
+Obiettivi
+\end_layout
+
+\begin_layout Standard
+Durante lo sviluppo di questo progetto si ha avuto come obiettivi, più che
+ l'effettiva utilità del progetto svolto, l'aspetto didattico che questo
+ aveva nell'apprendimento di gran parte delle particolarità di C++.
+ Quindi i punti chiave sono stati:
+\end_layout
+
+\begin_layout Itemize
+Utilizzo di gran parte delle caratteristiche (anche quelle considerate più
+ particolari) del C++ cercando di utilizzarle dove risolvano degli effettivi
+ problemi, e non cercando di utilizzarle per il solo gusto di usarle (analizzere
+mo poi in dettaglio come e dove sono state utilizzate).
+\end_layout
+
+\begin_layout Itemize
+Utilizzo di una vasta gamma di 
+\series bold
+Design Patterns
+\series default
+ (anche questi verranno presi in esame successivamente).
+\end_layout
+
+\begin_layout Section
+Classi Principali
+\end_layout
+
+\begin_layout Description
+University (
+\shape italic
+university.h
+\shape default
+, 
+\shape italic
+university.cpp
+\shape default
+) -- Rappresenta l'università e contiene metodi utili alla sua gestione.
+\end_layout
+
+\begin_layout Description
+Persona (
+\shape italic
+persona.h
+\shape default
+, 
+\shape italic
+persona.cpp
+\shape default
+) -- Rappresenta una persona, è una classe astratta, quindi non-instanziabile,
+ ma contiene i membri caratteristici di una persona per fornire una base
+ comune alle sue sottoclassi.
+\end_layout
+
+\begin_layout Description
+Studente (
+\shape italic
+studente.h
+\shape default
+, 
+\shape italic
+studente.cpp
+\shape default
+) -- Sottoclasse di Persona, rappresenta uno studente universitario, con
+ una mappa di voti.
+\end_layout
+
+\begin_layout Description
+Professore (
+\shape italic
+professore.h
+\shape default
+, 
+\shape italic
+professore.cpp
+\shape default
+) -- Sottoclasse di Persona, rappresenta un Professore, con una lista di
+ corsi insegnati.
+\end_layout
+
+\begin_layout Description
+Dottorando (
+\shape italic
+dottorando.h
+\shape default
+, 
+\shape italic
+dottorando.cpp
+\shape default
+) -- Sottoclasse sia di Studente che di Professore, rappresenta un Dottorando,
+ che fonde le caratteristiche di Professore e di Studente.
+\end_layout
+
+\begin_layout Description
+VotiContainer (
+\shape italic
+voticontainer.h
+\shape default
+, 
+\shape italic
+voticontainer.cpp
+\shape default
+) -- E' una mappa che permette di salvare i nomi dei corsi per i quali lo
+ studente ha conseguito una valutazione almeno sufficiente.
+\end_layout
+
+\begin_layout Description
+Voto (
+\shape italic
+voto.h
+\shape default
+, 
+\shape italic
+voto.cpp
+\shape default
+) -- Coppia di valori che rappresentano il nome del corso e la valutazione
+ conseguita dallo studente.
+\end_layout
+
+\begin_layout Description
+Visitor (
+\shape italic
+visitor.h
+\shape default
+) -- Classe astratta di base per tutti i visitor pattern che si vogliono
+ costruire sulla gerarchia di Persona.
+ Contiene metodi virtuali puri 
+\series bold
+visit
+\series default
+ in overload per permettere il double dispatch.
+\end_layout
+
+\begin_layout Description
+Visitable (
+\shape italic
+visitable.h
+\shape default
+) -- Classe astratta di base per tutte le classi che vogliono poter essere
+ visitate dai visitor.
+ Contiene il metodo virtuale 
+\series bold
+accept
+\series default
+ che permette alla classe di accettare i visitor.
+\end_layout
+
+\begin_layout Description
+Discounter (
+\shape italic
+discounter.h
+\shape default
+, 
+\shape italic
+discounter.cpp
+\shape default
+) -- Esempio di visitor parametrizzato (si veda la trattazione nella sottosezion
+e visitor pattern) che visita la gerarchia persona e ottiene la percentuale
+ di sconto che deve essere applicata per l'utilizzo dei servizi universitari
+ (come ad esempio la mensa) da parte della persona che accetta il visitor.
+\end_layout
+
+\begin_layout Subsection
+Altri File
+\end_layout
+
+\begin_layout Description
+main (
+\shape italic
+main.cpp
+\shape default
+) È praticamente una demo sull'utilizzo delle classi.
+ Contiene il metodo 
+\bar under
+main
+\bar default
+ che viene eseguito all'esecuzione del file compilato.
+\end_layout
+
+\begin_layout Description
+utilities (
+\shape italic
+utilities.h, utilities.cpp
+\shape default
+) Piccola libreria di metodi utili a differenti classi, come un metodo per
+ verificare se in una stringa è presente una sottostringa in maniera case
+ insensitive.
+\end_layout
+
+\begin_layout Section
+Principali Costrutti Utilizzati
+\end_layout
+
+\begin_layout Subsection
+Classi
+\end_layout
+
+\begin_layout Standard
+Ovviamente tutto il progetto fa largo uso della programmazione ad oggetti
+ a utilizza costrutti quali:
+\end_layout
+
+\begin_layout Itemize
+Costruttori, costruttori multipli e distruttori che puliscono gli oggetti
+ creati nello heap
+\end_layout
+
+\begin_layout Itemize
+Membri e metodi pubblici, protetti e privati
+\end_layout
+
+\begin_layout Standard
+Inoltre come particolarità del C++ si è anche utilizzato il costrutto 
+\series bold
+friend
+\series default
+ che permette ad una classe o ad un metodo di una classe di accedere anche
+ ai membri e metodi privati e protetti di un'altra classe.
+\end_layout
+
+\begin_layout Subsection
+Ereditarietà
+\end_layout
+
+\begin_layout Standard
+In C++ quando si ha eredità pubblica, allora si ha anche sottotipazione.
+ Nel codice si trovano molto spesso ereditarietà pubbliche, questo è l'esempio
+ del legame tra Persona e Studente.
+\end_layout
+
+\begin_layout Subsubsection
+Ereditarietà Privata
+\end_layout
+
+\begin_layout Standard
+In alcuni casi potremmo però voler estendere una classe senza rendere pubblici
+ i membri di quest'ultima.
+ In questo modo, analogamente a quanto poi si farà con il pattern Getter/Setter
+ (spiegato dopo) si può ottenere:
+\end_layout
+
+\begin_layout Itemize
+Controllo degli accessi ai membri e metodi della classe ereditata
+\end_layout
+
+\begin_layout Itemize
+Wrapping dei metodi per effettuare controlli di validità sui dati
+\end_layout
+
+\begin_layout Standard
+Nel progetto l'ereditarietà privata è usata in due classi.
+ Vediamo un estratto dalla classe 
+\shape italic
+Voto
+\shape default
+, qui si è voluto limitare l'accesso ai metodi della classe std::pair, evitando
+ la modifica del dato dopo la sua scrittura:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Voto: private std::pair <std::string, unsigned short> {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	Voto (std::string const& corso, unsigned short voto);
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual ~Voto ();
+\end_layout
+
+\begin_layout Plain Layout
+
+	std::string const& getCorso () const;
+\end_layout
+
+\begin_layout Plain Layout
+
+	unsigned short getVoto () const;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nella classe 
+\shape italic
+VotiContainer
+\shape default
+ si è anche voluto 
+\bar under
+ri-pubblicizzare
+\bar default
+ alcuni metodi (questo viene fatto con la keywork 
+\series bold
+using
+\series default
+).
+ Vediamone un estratto:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class VotiContainer: private std::map <std::string, unsigned short> {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	size_t registraVoto (Voto* voto);
+\end_layout
+
+\begin_layout Plain Layout
+
+	unsigned short getVoto (std::string const& corso) const;
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Ripubblicizzo i metodi che vondo rendere pubblici
+\end_layout
+
+\begin_layout Plain Layout
+
+	using std::map<std::string, unsigned short>::const_iterator;
+\end_layout
+
+\begin_layout Plain Layout
+
+	using std::map<std::string, unsigned short>::size;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Ereditarietà Multipla
+\end_layout
+
+\begin_layout Standard
+Una delle caratteristiche fondamentali di C++ è la possibilità di ereditare
+ da più classi comportamenti.
+ In questo modo il grafo dell'ereditarietà delle classi non è più un albero
+ semplice ma una rete.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/cpp-multipleinheritance.png
+	width 25col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Diamond Problem ed Ereditarietà Virtuale
+\end_layout
+
+\begin_layout Standard
+Tuttavia l'ereditarietà multipla può portare ad alcuni problemi, infatti
+ se si eredita da due classi che hanno tra le loro basi una stessa classe,
+ ci si troverebbe con due istanze della stessa base class.
+ Il diamond nella nostra gerarchia si chiude con l'inserimento della classe
+ Dottorando:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Dottorando: public virtual Studente, public virtual Professore { ...
+ };
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il diamante si vede chiaramente dalla rappresentazione UML della gerarchia:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/cpp-diamond.png
+	width 25col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il problema del diamond si risolve con l'ereditarietà virtuale, basta infatti
+ che Studente e da Professore ereditino virtualmente Persona, in questo
+ modo garantiamo che ci sia al più una istanza di Persona anche in caso
+ di diamonds:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Studente: public virtual Persona { ...
+ };
+\end_layout
+
+\begin_layout Plain Layout
+
+class Professore: public virtual Persona { ...
+ };
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Overriding e Metodi Virtuali
+\end_layout
+
+\begin_layout Standard
+In C++, anche in presenza di ereditarietà e di condizioni valide per fare
+ l'override di un metodo, di default non viene effettuato override ma overload
+ del metodo, e quindi il risultato non è polimorfico: in compilazione non
+ viene scelta la segnatura ma il metodo da chiamare, in base quindi al tipo
+ del riferimento e non al tipo dell'oggetto.
+ Quando invece si vuole fare override è necessario che la base class dichiari
+ il metodo come 
+\series bold
+virtual
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Un esempio nel progetto è il metodo 
+\shape italic
+virtual void printInfo()
+\shape default
+, implementato in tutte le classi della gerarchia.
+ In questo modo il metodo chiamato in runtime dipenderà dal tipo dell'oggetto
+ e non dal tipo del riferimento.
+ Quindi scrivendo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Persona* p = new Studente();
+\end_layout
+
+\begin_layout Plain Layout
+
+p->printInfo();
+\end_layout
+
+\end_inset
+
+verrà chiamato il metodo printInfo di Studente (se il metodo non fosse stato
+ virtual sarebbe stato chiamato quello di Persona).
+\end_layout
+
+\begin_layout Standard
+Se da un metodo di Studente vogliamo richiamare un metodo di Persona su
+ cui è stato fatto override possiamo scrivere:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Persona::printInfo();
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Classi Astratte e Metodi Virtuali Puri
+\end_layout
+
+\begin_layout Standard
+Per poter dichiarare classi astratte (non instanziabili) in C++ dobbiamo
+ fare ricorso a metodi 
+\series bold
+pure virtual
+\series default
+ che sono codificati come:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+virtual returnType method (args) = 0;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le classi astratte nel progetto sono:
+\end_layout
+
+\begin_layout Itemize
+Visitor
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+virtual void visit (Studente*) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+virtual void visit (Professore*) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+virtual void visit (Dottorando*) = 0;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Visitable
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+virtual void accept (Visitor* visitor) = 0;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Persona
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+virtual ~Persona() = 0;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Persona ha anche un secondo metodo virtuale pure che è quello ereditato
+ da Visitable che però non estende.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Le classi Visitor e Visitable non hanno implementazioni, quindi sono come
+ delle interfacce Java.
+\end_layout
+
+\begin_layout Subsection
+Overload
+\end_layout
+
+\begin_layout Standard
+Anche l'overload è un concetto fondamentale, un esempio è quello appena
+ visto per la classe Visitor che ha tre metodi visit con tre metodi visit
+ che però hanno differenti argomenti.
+ Si noti che in questo modo si presenta tuttavia il problema del 
+\series bold
+Double Dispatching
+\series default
+, che viene risolto poi nella sezione che spiega in dettaglio il Visitor
+ Pattern.
+\end_layout
+
+\begin_layout Subsubsection
+Overload degli operatori
+\end_layout
+
+\begin_layout Standard
+Altra caratteristica del C++ è quella di poter fare overload di quasi tutti
+ i più comuni operatori.
+\end_layout
+
+\begin_layout Paragraph
+Overload di []
+\end_layout
+
+\begin_layout Standard
+Utilizzato ad esempio della classe Studente come alias della chiamata a
+ 
+\shape italic
+getVoto (string const& corso)
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+unsigned short Studente::operator[] (string const& corso) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return getVoto(corso);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Overload di =
+\end_layout
+
+\begin_layout Standard
+Utilizzato per definire il comportamento dell'assegnamento.
+ Nel progetto si usa per inibire l'assegnamento alle istanze di alcune classi
+ come University (il metodo viene dichiarato ma mai implementato, in modo
+ che il compilatore generi un errore se viene utilizzato).
+\end_layout
+
+\begin_layout Paragraph
+Overload di <<
+\end_layout
+
+\begin_layout Standard
+Questo operatore è molto utile insieme agli output stream come 
+\series bold
+cout
+\series default
+.
+ In questo modo si può definire il comportamento a fronte di una chiamata
+ 
+\shape italic
+cout << istanza_della_classe
+\shape default
+.
+ Vediamo l'esempio di VotiContainer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class VotiContainer: private std::map <std::string, unsigned short> {
+\end_layout
+
+\begin_layout Plain Layout
+
+	[ ...
+ ]
+\end_layout
+
+\begin_layout Plain Layout
+
+	friend std::ostream& operator<< (std::ostream& os, VotiContainer const*
+ v);
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ostream& operator<< (ostream& os, VotiContainer const* v) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (map<string, unsigned short>::const_iterator i = v->begin(); i != v->end();
+ ++i)
+\end_layout
+
+\begin_layout Plain Layout
+
+		os << i->second << "
+\backslash
+t" << i->first << endl;
+\end_layout
+
+\begin_layout Plain Layout
+
+	return os;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si noti che si è voluto utilizzare un metodo esterno alla classe ma definito
+ come friend della stessa, in modo da poter vedere tutti i suoi membri.
+ Viene ritornato lo stream stesso per poter concatenare elementi come:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+cout << "value = " << istanza_della_classe << "!"
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+STL
+\end_layout
+
+\begin_layout Standard
+Nel progetto si è fatto un largo utilizzo di tutti gli aspetti delle STL
+ per ottenere funzionalità avanzate senza dover codificarle e senza quindi
+ rischiare di immettere errori o cali di prestazioni non necessari.
+\end_layout
+
+\begin_layout Subsubsection
+Strutture
+\end_layout
+
+\begin_layout Standard
+Le strutture dati che sono state utilizzate sono:
+\end_layout
+
+\begin_layout Description
+vector Utilizzato nella classe Professore per mantenere una lista di 
+\shape italic
+std::string
+\shape default
+ (i corsi insegnati).
+\end_layout
+
+\begin_layout Description
+unordered_map Utilizzato da University per mantenere una mappa delle persone.
+ La chiave della mappa è la matricola, mentre il valore è il puntatore alla
+ Persona.
+\end_layout
+
+\begin_layout Description
+map Esteso da VotiContainer per tener traccia (in maniera ordinata secondo
+ registrazione) dei voti dello studente.
+ La chiave è il nome del corso, mentre il valore è il voto.
+\end_layout
+
+\begin_layout Description
+pair Esteso da Voto che rappresenta poi la coppia chiave/valore inserita
+ in VotiContainer.
+\end_layout
+
+\begin_layout Subsubsection
+Iteratori
+\end_layout
+
+\begin_layout Standard
+Utilizzo degli iteratori per creare algoritmi come quello per il calcolo
+ della media in VotiContainer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+float VotiContainer::getMedia () {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (this->empty())
+\end_layout
+
+\begin_layout Plain Layout
+
+		return 0.0f;
+\end_layout
+
+\begin_layout Plain Layout
+
+	int sum = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (map<string, unsigned short>::const_iterator i = this->begin(); i !=
+ this->end(); ++i)
+\end_layout
+
+\begin_layout Plain Layout
+
+		sum += i->second;
+\end_layout
+
+\begin_layout Plain Layout
+
+	return ((float) sum) / size();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Altri esempi di utilizzo di iteratori si ritrovano in tutto il codice per
+ scorrere ma anche cercare i dati nelle strutture STL.
+\end_layout
+
+\begin_layout Subsubsection
+Algoritmi
+\end_layout
+
+\begin_layout Standard
+Un esempio di algoritmo STL è il metodo 
+\series bold
+transform
+\series default
+ utilizzato per trasformare in lowercase tutti i caratteri di una stringa
+ prima di poter fare la ricerca di una sottostringa in maniera case-insensitive.
+ Esempio da utilities:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool strfindi(std::string src, std::string str)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	std::transform(src.begin(), src.end(), src.begin(), ::toupper);
+\end_layout
+
+\begin_layout Plain Layout
+
+	std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return (src.find(str) == std::string::npos) ? false : true;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Pattern
+\end_layout
+
+\begin_layout Standard
+Un aspetto molto importante, se non fondamentale, dello sviluppo del progetto
+ è stata l'attenzione alla comprensione e all'utilizzo dei design pattern
+ architetturale.
+\end_layout
+
+\begin_layout Subsection
+Getter/Setter Pattern
+\end_layout
+
+\begin_layout Standard
+Tutti i membri 
+\begin_inset Quotes eld
+\end_inset
+
+interessanti
+\begin_inset Quotes erd
+\end_inset
+
+ delle varie classi sono definiti comunque privati e sono acceduti da metodi
+ getter e setter in modo da poter definire i tipi di azioni permesse e fare
+ controllo dei valori impostati.
+ Vediamo un esempio di limitazione degli accessi classe Voto (lettura permessa
+ ma senza scrittura):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Voto: private std::pair <std::string, unsigned short> {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	std::string const& getCorso () const;
+\end_layout
+
+\begin_layout Plain Layout
+
+	unsigned short getVoto () const;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Un altro esempio dalla classe VotiContainer sul controllo dei valori:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+size_t VotiContainer::registraVoto (Voto* voto) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (voto->getVoto() < 18 || voto->getVoto() > 30)
+\end_layout
+
+\begin_layout Plain Layout
+
+		cout << "È possibile registrare solo voti 18 <= x <= 30";
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		this->insert(*voto);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return this->size();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Singleton Pattern
+\end_layout
+
+\begin_layout Standard
+La classe 
+\shape italic
+University
+\shape default
+ ha un costruttore privato, un membro statico privato, che rappresenta l'istanza
+ della classe, che viene acceduto tramite un metodo pubblico 
+\shape italic
+getInstance
+\shape default
+.
+ In questo modo non è possibile creare altre istanze della classe ma una
+ sola istanza è utilizzabile alla volta.
+ Inoltre è stata implementata anche la 
+\series bold
+lazy initialization
+\series default
+ cioè l'istanza viene creata non quando la classe viene caricata ma alla
+ prima richiesta.
+ Vediamo un estratto della classe University:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class University {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	static University *getInstance ();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+private:
+\end_layout
+
+\begin_layout Plain Layout
+
+	static University *instance;
+\end_layout
+
+\begin_layout Plain Layout
+
+	University ();
+\end_layout
+
+\begin_layout Plain Layout
+
+	University (University const& other);
+\end_layout
+
+\begin_layout Plain Layout
+
+	void operator= (University const& other);
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// Dichiaro la variabile che è stata precedentemente definita
+\end_layout
+
+\begin_layout Plain Layout
+
+University *University::instance = NULL;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+University *University::getInstance() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return instance ? instance : (instance = new University());
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Anche il costruttore di copia e il l'operatore = sono stati ridefiniti (e
+ non implementati) per non permettere l'alterazione o la copia dell'istanza
+ singleton.
+\end_layout
+
+\begin_layout Subsection
+Facade Pattern
+\end_layout
+
+\begin_layout Standard
+La classe University è un Facade per Studente, Professore e Dottorando e
+ garantisce infatti l'accesso a dei metodi complessi che fanno riferimento
+ a queste classi.
+ Il pattern è stato implementato ad esempio per i costruttori attraverso
+ i seguenti passi:
+\end_layout
+
+\begin_layout Itemize
+La classe University è 
+\series bold
+friend
+\series default
+ di Studente, Professore e Dottorando e fornisce dei metodi per creare delle
+ istanze di queste classi e controllarne la creazione.
+\end_layout
+
+\begin_layout Itemize
+I costruttori delle classi Studente, Professore e Dottorando sono protected;
+ inoltre i costruttori di copia e l'operatore = sono privati.
+\end_layout
+
+\begin_layout Standard
+Così l'unico modo per creare delle istanze è passare dalla classe University,
+ che ne assegna una matricola univoca e aggiunge anche l'istanza alla sua
+ lista delle persone.
+\end_layout
+
+\begin_layout Subsection
+Visitor Pattern
+\end_layout
+
+\begin_layout Standard
+I visitor pattern sono utilissimi per due motivi:
+\end_layout
+
+\begin_layout Itemize
+Ci permettono di effettuare il 
+\series bold
+double dispatching
+\series default
+, e quindi di invocare metodi diversi non sono in base al tipo effettivo
+ del chiamante ma anche a quello del chiamato.
+\end_layout
+
+\begin_layout Itemize
+Ci permettono di creare classi che al loro interno contengono l'intero funzionam
+ento di un meccanismo che cambia la sua dinamica al variare del tipo dell'oggett
+o.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In questo progetto si voleva ad esempio avere dei metodi che calcolassero
+ in base al tipo di Persona, lo sconto da applicare sui servizi universitari
+ quali la mensa: la classe 
+\series bold
+Discounter
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Il cambio del meccanismo di calcolo comporterebbe la modifica dello stesso
+ in ogni classe.
+ Utilizzando i Visitor invece possiamo avere tutta la specifica nella stessa
+ classe (l'implementazione del visitor).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Per ottenere questo funzionamento sono state definite due classi:
+\end_layout
+
+\begin_layout Itemize
+Visitor (classe astratta implementata dai visitor)
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Visitor {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual ~Visitor() { }
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual void visit (Studente*) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual void visit (Professore*) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual void visit (Dottorando*) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Visitable (classe astratta implementata da chi vuole essere visitato)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Visitable {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual ~Visitable() {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	virtual void accept (Visitor* visitor) = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La classe che lo estende deve sempre implementare il metodo allo stesso
+ modo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+virtual void accept (Visitor* visitor) { visitor->visit(this); }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Template Pattern per specifica del tipo restituito
+\end_layout
+
+\begin_layout Standard
+Per poter definire il tipo di ritorno del visitor è stato utilizzato il
+ 
+\series bold
+Template Pattern
+\series default
+ in modo da specificare il tipo di ritorno del Visitor.
+ In questo modo si è creato un wrapper alla classe Visitor che contenga
+ anche un campo 
+\shape italic
+value
+\shape default
+ che contenga il valore di ritorno del visitor e possa essere acceduto da
+ chi ha invocato il visitor sull'oggetto.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+template <typename ReturnType>
+\end_layout
+
+\begin_layout Plain Layout
+
+class ReturningVisitor: public Visitor {
+\end_layout
+
+\begin_layout Plain Layout
+
+public:
+\end_layout
+
+\begin_layout Plain Layout
+
+	ReturnType const& getValue () { return value; }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+protected:
+\end_layout
+
+\begin_layout Plain Layout
+
+	void setValue (ReturnType const& value) { this->value = value; }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+private:
+\end_layout
+
+\begin_layout Plain Layout
+
+	ReturnType value;
+\end_layout
+
+\begin_layout Plain Layout
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Visitors are Welcome!
+\end_layout
+
+\begin_layout Standard
+Quante volte nei film di Hollywood abbiamo visto questa frase scritta sui
+ cartelli dei pazzi che aspettano l'arrivo degli alieni sui grattacieli
+ di New York, e che poi vengono sistematicamente annientanti dagli alieni
+ stessi?
+\end_layout
+
+\begin_layout Standard
+Anche in questo progetto la classe Visitor è dichiarata 
+\series bold
+friend
+\series default
+ delle classi nella gerarchia di Persona.
+ In questo modo si può trarre vantaggio dalla potenza dei Visitor senza
+ dover rinunciare al principio dell'incapsulamento mettendo tutti i metodi
+ pubblici.
+ I Visitors potranno quindi aver accesso anche ai membri privati e protetti
+ delle classi della gerarchia di Persona.
+\end_layout
+
+\begin_layout Section
+Altro
+\end_layout
+
+\begin_layout Standard
+Altri costrutti che sono stati utilizzati nel progetto sono:
+\end_layout
+
+\begin_layout Itemize
+Costruttori di Copia
+\end_layout
+
+\begin_layout Itemize
+Passaggio per valore (solitamente utilizzato per i tipi primitivi)
+\end_layout
+
+\begin_layout Itemize
+Passaggio per reference (utilizzato per essere più veloce e snello, con
+ costruttori di copia quando è stato necessario salvare una copia dell'oggetto
+ all'interno dell'istanza oppure per proteggere e da qualificatori 
+\series bold
+const
+\series default
+ per proteggere dalla modifica gli oggetti passati come parametri o ritornati
+ (ad esempio per i getter).
+\end_layout
+
+\begin_layout Itemize
+Passaggio per puntatore (snello ma non previene la delete dell'oggetto)
 \end_layout
 
 \end_body

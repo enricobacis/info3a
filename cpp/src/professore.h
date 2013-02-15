@@ -6,6 +6,7 @@
 
 class Professore: public virtual Persona {
 	friend class University;
+	friend class Visitor; // Visitors are welcome!
 
 public:
 	virtual ~Professore ();

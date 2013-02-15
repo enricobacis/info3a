@@ -32,8 +32,7 @@ float VotiContainer::getMedia () {
 }
 
 void VotiContainer::print () {
-	for (map<string, unsigned short>::const_iterator i = this->begin(); i != this->end(); ++i)
-		cout << i->second << "\t" << i->first << endl;
+	cout << this;
 }
 
 unsigned short VotiContainer::getVoto (string const& corso) const {
@@ -45,4 +44,10 @@ unsigned short VotiContainer::getVoto (string const& corso) const {
 
 unsigned short VotiContainer::operator[] (string const& corso) const {
 	return getVoto(corso);
+}
+
+ostream& operator<< (ostream& os, VotiContainer const* v) {
+	for (map<string, unsigned short>::const_iterator i = v->begin(); i != v->end(); ++i)
+		os << i->second << "\t" << i->first << endl;
+	return os;
 }

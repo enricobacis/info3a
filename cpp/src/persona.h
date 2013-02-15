@@ -7,7 +7,7 @@
 class Persona: public Visitable {
 
 public:
-	virtual ~Persona();
+	virtual ~Persona() = 0;
 
 	std::string const& getCognome() const;
 	void setCognome(std::string const& cognome);

@@ -20,6 +20,7 @@ public:
 	void print ();
 
 	unsigned short operator[] (std::string const& corso) const;
+	friend std::ostream& operator<< (std::ostream& os, VotiContainer const* v);
 
 };
 

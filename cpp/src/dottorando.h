@@ -6,6 +6,7 @@
 
 class Dottorando: public virtual Studente, public virtual Professore {
 	friend class University;
+	friend class Visitor; // Visitors are welcome!
 
 public:
 	virtual ~Dottorando();
