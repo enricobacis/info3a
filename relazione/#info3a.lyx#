@@ -2150,6 +2150,7 @@ Il diamante si vede chiaramente dalla rappresentazione UML della gerarchia:
 \align center
 \begin_inset Graphics
 	filename images/cpp/persona-class-diagram.svg
+	lyxscale 50
 	width 40col%
 
 \end_inset
