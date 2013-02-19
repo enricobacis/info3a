@@ -231,11 +231,11 @@ includegraphics[width=5em]{{by-nc-sa.eu}.pdf}}
 
 \begin_layout Standard
 \align right
-Versione del Documento: 0.6
+Versione del Documento: 
 \series bold
-b
+1.0
 \series default
- - 20130212
+ - 20130219
 \end_layout
 
 \begin_layout Standard
@@ -1448,7 +1448,7 @@ Per ovviare al problema di compilazione con GCC 4 possibile solo con i sorgenti
 \end_layout
 
 \begin_layout Subsection
-Autocyc
+Autocyc [BASH]
 \end_layout
 
 \begin_layout Standard
@@ -1468,6 +1468,93 @@ autocyc
 Questo procedimento è utile quando si vuole programmare in Cyclone su una
  macchina a 64 bit, compilando automaticamente su un'altra macchina, fisica
  o virtuale, a 32 bit ogni volta che il file viene modificato.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#!/bin/bash
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+src=${1:-hello.cyc}
+\end_layout
+
+\begin_layout Plain Layout
+
+out=autocycout
+\end_layout
+
+\begin_layout Plain Layout
+
+i=1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+echo -e "Now watching $src for changes..."
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+while inotifywait -q -e modify -e attrib $src
+\end_layout
+
+\begin_layout Plain Layout
+
+do
+\end_layout
+
+\begin_layout Plain Layout
+
+	clear
+\end_layout
+
+\begin_layout Plain Layout
+
+	echo -e "[Revision $i]"
+\end_layout
+
+\begin_layout Plain Layout
+
+	cyclone -o /tmp/$out $src && chmod +x /tmp/$out && /tmp/$out
+\end_layout
+
+\begin_layout Plain Layout
+
+	rm -rf /tmp/$out
+\end_layout
+
+\begin_layout Plain Layout
+
+	i=$(($i + 1))
+\end_layout
+
+\begin_layout Plain Layout
+
+done
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1624,6 +1711,32 @@ Conclusione
 \end_layout
 
 \begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/cyclone/CRC.png
+	lyxscale 50
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Cyclone Remote Compiler è disponibile su github per chiunque voglia contribuire
  e, al momento della stesura di questo elaborato, è raggiungibile al sito:
 \end_layout
@@ -1693,8 +1806,8 @@ Dottorando riunisce in sé sia le caratteristiche dello studente che quelle
 \end_layout
 
 \begin_layout Standard
-Tutte e tre ereditano (nel caso di Dottorando in maniera indiretta) dalla
- classe astratta Persona.
+Tutte e tre estendono (nel caso di Dottorando in maniera indiretta) la classe
+ astratta Persona.
 \end_layout
 
 \begin_layout Standard
@@ -3277,6 +3390,5456 @@ const
 
 \begin_layout Itemize
 Passaggio per puntatore (snello ma non previene la delete dell'oggetto).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+JML
+\end_layout
+
+\begin_layout Standard
+Java Modeling Language (JML) è un linguaggio che estende Java con funzionalità
+ tipiche della programmazione Design by Contract; in particolare si possono
+ aggiungere alle classi e ai metodi Java precondizioni, postcondizioni e
+ invarianti atti a garantire sia a chi invoca il metodo che a chi lo implementa
+ il rispetto di contratti scritti in fase di design.
+ Le specifiche dei contratti sono inserite come commenti Java, in questo
+ modo da preservare la compilazione anche con un classico compilatore Java
+ (perdendo ovviamente i controlli relativi ai contratti).
+\end_layout
+
+\begin_layout Standard
+Esistono diversi tipi di verificatori di contratti JML, ma i più famosi
+ sono sicuramente RAC (verifica dei contratti dinamica in runtime) e ESC
+ (verifica statica con possibilità di provare la correttezza del programma).
+ Su questi due tipi di verifica si basano tutti i tool scritti per JML come
+ quello usato in questo elaborato: OpenJML.
+\end_layout
+
+\begin_layout Section
+Descrizione del progetto
+\end_layout
+
+\begin_layout Standard
+Il progetto riprende il tema dell'Università svolto per l'elaborato in C++,
+ e in particolare la parte relativa allo studente e al salvataggio dei voti
+ a cui sono state applicate alcune modifiche per renderla più interessante
+ dal punto di vista di Java e di JML.
+\end_layout
+
+\begin_layout Standard
+Le funzionalità che si sono volute sviluppare sono state:
+\end_layout
+
+\begin_layout Itemize
+Mantenimento dell'anagrafica, dell'anno di corso e dei voti conseguiti dallo
+ Studente con metodi per accedere a tali dati e modificarli.
+\end_layout
+
+\begin_layout Itemize
+Voti salvati in una struttura che li mantenga ordinati e verifica di questa
+ proprietà attraverso un contratto della classe.
+\end_layout
+
+\begin_layout Standard
+Si faccia riferimento alla sottosezione Classi e funzionalità per i dettagli.
+\end_layout
+
+\begin_layout Subsection
+Obiettivi
+\end_layout
+
+\begin_layout Standard
+L'obiettivo è stato quello di utilizzare tutti i costrutti disponibili in
+ JML per scrivere contratti che garantissero la validità del codice scritto.
+ Per fare questo l'approccio seguito è stato:
+\end_layout
+
+\begin_layout Enumerate
+Formulazione del problema di carattere generale.
+\end_layout
+
+\begin_layout Enumerate
+Individuazione e generalizzazione delle classi e delle strutture dati delle
+ classi, delle funzionalità e dei metodi che astraessero i comportamenti
+ desiderati in unità logiche a sé stanti.
+\end_layout
+
+\begin_layout Enumerate
+Individuazione degli invarianti di classe e scrittura dei contratti per
+ classi e metodi.
+\end_layout
+
+\begin_layout Enumerate
+Implementazione in modo da garantire il rispetto dei contratti.
+\end_layout
+
+\begin_layout Standard
+Dal mio punto di vista è stato molto importante la scrittura dei contratti
+ in un tempo precedente alla codifica, in questo modo infatti si sono tralasciat
+i tutti gli aspetti implementativi e ci si è concentrati solo sulla funzionalità
+ voluta da ogni metodo.
+\end_layout
+
+\begin_layout Standard
+Uno dei limiti all'approccio del Design By Contract è infatti quello della
+ scrittura dei contratti successivamente alla scrittura dei metodi.
+ In questo modo infatti si rischia di legare troppo la funzionalità voluta
+ all'aspetto implementativo.
+ È stato questo il motivo che mi ha spinto a non utilizzare codice già scritto
+ per altri corsi per questo elaborato, ma affrontare una problematica nuova.
+\end_layout
+
+\begin_layout Subsection
+Classi e funzionalità
+\end_layout
+
+\begin_layout Standard
+Il progetto consta di 4 classi principali:
+\end_layout
+
+\begin_layout Description
+Persona (
+\shape italic
+Persona.java
+\shape default
+) Racchiude l'anagrafica con nome e cognome e i metodi per accedervi
+\end_layout
+
+\begin_layout Description
+Studente (
+\shape italic
+Studente.java
+\shape default
+) Estende la classe Studente e vi aggiunge l'anno di corso nel quale lo
+ studente si trova e la lista ordinata dei suoi voti registrati.
+\end_layout
+
+\begin_layout Description
+Voto (
+\shape italic
+Voto.java
+\shape default
+) È un wrapper di Integer che lo rende però non modificabile.
+ È utilizzato per rappresentare un voto nella lista dei voti dello Studente.
+\end_layout
+
+\begin_layout Description
+SortedList<T
+\begin_inset space ~
+\end_inset
+
+extends
+\begin_inset space ~
+\end_inset
+
+Comparable<?
+\begin_inset space ~
+\end_inset
+
+super
+\begin_inset space ~
+\end_inset
+
+T>> (
+\shape italic
+SortedList.java
+\shape default
+) È un wrapper di ArrayList in modo da garantisce l'inserimento ordinato
+ in tempo lineare 
+\shape italic
+O(n)
+\shape default
+ nel caso migliore, peggiore e medio.
+ L'accesso è effettuato in tempo costante 
+\shape italic
+O(1)
+\shape default
+.
+ La classe è parametrica di tipo 
+\shape italic
+T extends Comparable<? super T>
+\shape default
+ per garantire la possibilità di ordinare (attraverso il metodo 
+\shape italic
+compareTo
+\shape default
+ dell'interfaccia 
+\shape italic
+Comparable
+\shape default
+) gli elementi della lista.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/jml/class-diagram.gif
+	width 55col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Oltre a queste 4 classi il progetto si compone di un'ulteriore classe Demo
+ (
+\shape italic
+Demo.java
+\shape default
+) che implementa il metodo 
+\shape italic
+main
+\shape default
+ e che dimostra l'utilizzo della classe e attraverso la quale si può vedere
+ il verificatore di contratti in runtime all'opera.
+\end_layout
+
+\begin_layout Section
+Costrutti JML
+\end_layout
+
+\begin_layout Standard
+I contratti JML si inseriscono come commenti particolari all'interno del
+ codice Java.
+ Si possono usare due diverse sintassi:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\shape italic
+/*@
+\begin_inset space ~
+\end_inset
+
+...
+\begin_inset space ~
+\end_inset
+
+@*/ 
+\shape default
+Usata generalmente per i contratti multi-linea e per i contratti inseriti
+ all'interno di uno statement Java (come 
+\shape italic
+non_null
+\shape default
+ o 
+\shape italic
+pure
+\shape default
+ che vedremo in seguito).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+//@
+\begin_inset space ~
+\end_inset
+
+...
+ Usata generalmente per i contratti che stanno su una sola riga.
+\end_layout
+
+\begin_layout Subsection
+Metodi puri
+\end_layout
+
+\begin_layout Standard
+Vengono definiti puri i metodi che non hanno effetti collaterali, ossia
+ che non variano lo stato dell'oggetto sul quale sono invocati.
+ In JML la parola chiave per indicare che un metodo è puro è 
+\series bold
+pure
+\series default
+\shape italic
+ 
+\shape default
+e deve essere messa come annotazione JML nella segnatura del metodo, dopo
+ i qualificatori ma prima del tipo restituito.
+ I metodi puri sono gli unici che possono essere usati in maniera sicura
+ all'interno dei contratti JML, infatti se viene invocato un metodo non
+ marcato come puro in un contratto JML, questo genera un warning in compilazione.
+\end_layout
+
+\begin_layout Standard
+Esempio del metodo puro 
+\shape italic
+size()
+\shape default
+ della classe 
+\shape italic
+SortedList
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ int size() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return list.size();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nel codice si è fatta attenzione a marcare tutti i metodi senza side-effects
+ come puri, ad esempio di hanno:
+\end_layout
+
+\begin_layout Itemize
+Metodi getter
+\end_layout
+
+\begin_layout Itemize
+Metodi come 
+\shape italic
+count
+\shape default
+ e 
+\shape italic
+size
+\end_layout
+
+\begin_layout Itemize
+Metodi 
+\shape italic
+equals
+\shape default
+, 
+\shape italic
+compareTo
+\shape default
+ e 
+\shape italic
+toString
+\end_layout
+
+\begin_layout Subsection
+non_null
+\end_layout
+
+\begin_layout Standard
+Il qualificatore JML 
+\series bold
+non_null
+\series default
+ specifica che il campo o il parametro o il valore di ritorno di una funzione
+ sul quale viene applicato non può essere nullo; questo viene posto tra
+ i qualificatori Java e il tipo.
+ Esempio da 
+\shape italic
+Persona
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+protected /*@ non_null @*/ String nome;
+\end_layout
+
+\begin_layout Plain Layout
+
+protected /*@ non_null @*/ String cognome;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Precondizioni e Postcondizioni
+\end_layout
+
+\begin_layout Standard
+Precondizioni, Postcondizione e Invarianti (che vedremo in una sezione successiv
+a), sono le tre componenti fondamentali anche della logica di Hoare
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Tony Hoare, vincitore del Turing Award e inventore dell'algoritmo Quicksort
+ nonché della logica di Hoare
+\end_layout
+
+\end_inset
+
+, infatti i programmi scritti in JML possono anche essere verificati attraverso
+ tool come KeY-Hoare.
+\end_layout
+
+\begin_layout Subsubsection
+Precondizione
+\end_layout
+
+\begin_layout Standard
+La keyword 
+\series bold
+requires
+\series default
+ serve per specificare le precondizioni di un metodo.
+ Queste vengono verificate prima dell'esecuzione dello stesso.
+\end_layout
+
+\begin_layout Standard
+Esempio dal metodo 
+\shape italic
+get(int index)
+\shape default
+ classe 
+\shape italic
+SortedList
+\shape default
+ che garantisce che l'indice richiesta esista all'interno della lista:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ requires (index >= 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	  && (index < size());
+\end_layout
+
+\begin_layout Plain Layout
+
+  @*/
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ T get(int index) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return list.get(index);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si noti che è possibile invocare il metodo 
+\shape italic
+size()
+\shape default
+ all'interno del metodo perché questo è stato marcato e verificato puro
+ (vedi sottosezione metodi puri).
+\end_layout
+
+\begin_layout Subsubsection
+Postcondizioni
+\end_layout
+
+\begin_layout Standard
+La keyword 
+\series bold
+ensures
+\series default
+ serve per specificare le postcondizioni di un metodo.
+ Queste vengono verificate al termine dell'esecuzione dello stesso.
+\end_layout
+
+\begin_layout Standard
+Esempio dal costruttore della classe Studente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ ensures (nome == getNome())
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (cognome == getCognome())
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (annocorso == 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (getNumeroVoti() == 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  @*/
+\end_layout
+
+\begin_layout Plain Layout
+
+Studente(/*@ non_null @*/ String nome, /*@ non_null @*/ String cognome)
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+	super(nome, cognome);
+\end_layout
+
+\begin_layout Plain Layout
+
+	annocorso = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+	voti = new SortedList<Voto>();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+È utile verificare che i setter funzionino correttamente verificando ad
+ esempio che alla fine del metodo risulti 
+\shape italic
+nome == getNome()
+\shape default
+, ossia una successiva invocazione del metodo 
+\shape italic
+getNome()
+\shape default
+ restituirà il nome corretto con cui l'oggetto è stato costruito.
+\end_layout
+
+\begin_layout Subsubsection
+Campi privati
+\end_layout
+
+\begin_layout Standard
+Se si vuole accedere a campi privati della classe dai contratti, è necessario
+ aggiungere il qualificatore JML 
+\series bold
+spec_public
+\series default
+ dopo i qualificatori Java del campo e prima del tipo di questo.
+\end_layout
+
+\begin_layout Standard
+Esempio del campo 
+\shape italic
+annocorso
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+private /*@ spec_public @*/ int annocorso;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Valore di ritorno
+\end_layout
+
+\begin_layout Standard
+È possibile utilizzare il valore di ritorno del metodo nelle postcondizioni
+ utilizzando la keyword 
+\series bold
+
+\backslash
+result
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Esempio da 
+\shape italic
+Persona
+\shape default
+, in questo caso si vuole controllare che la stringa restituita dal metodo
+ 
+\shape italic
+toString()
+\shape default
+ sia composta da almeno 3 caratteri (un carattere per il nome, uno per lo
+ spazio e uno per il cognome):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+//@ ensures (
+\backslash
+result).length() >= 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+@Override
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ /*@ non_null @*/ String toString() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return nome + " " + cognome;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si noti che il qualificatore 
+\shape italic
+@Override
+\shape default
+ non fa parte della specifica JML ma Java.
+ La specifica JML va posta precedentemente anche ai qualificatori Java.
+\end_layout
+
+\begin_layout Subsubsection
+Valori precedenti alla chiamata
+\end_layout
+
+\begin_layout Standard
+Nelle postcondizioni è possibile utilizzare il valore di un campo o addirittura
+ quello di un metodo precedentemente all'invocazione del metodo stesso.
+ Questo effetto viene ottenuto utilizzando la keyword 
+\series bold
+
+\backslash
+old(
+\shape italic
+value
+\shape default
+)
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Esempio di utilizzo nella classe 
+\shape italic
+Studente
+\shape default
+ sul campo 
+\shape italic
+annocorso
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+//@ ensures this.annocorso == 
+\backslash
+old(annocorso) + 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+public void incrementaAnnocorso() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	++annocorso;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Esempio di utilizzo nella classe 
+\shape italic
+SortedList
+\shape default
+ su dei metodi (questo metodo verifica che l'inserimento sia ordinato, ma
+ non viene controllata la postcondizione sull'ordinamento perché è già controlla
+ta dall'invariante della classe, si veda la sezione Invarianti):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ ensures (size() == (
+\backslash
+old(size()) + 1))
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (count(element) == (
+\backslash
+old(count(element)) + 1));
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ */
+\end_layout
+
+\begin_layout Plain Layout
+
+public void add(/*@ non_null @*/ T element) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	int i = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	while (i < list.size() && list.get(i).compareTo(element) <= 0) { ++i; }
+\end_layout
+
+\begin_layout Plain Layout
+
+	list.add(i, element);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Contratti delle sottoclassi
+\end_layout
+
+\begin_layout Standard
+Quando viene fatto override di un metodo in una sottoclasse, è possibile
+ unire i contratti del metodo nella superclasse con quelli del metodo nella
+ sottoclasse con la keyword 
+\series bold
+also
+\series default
+.
+ Esempio del metodo 
+\shape italic
+toString()
+\shape default
+ di 
+\shape italic
+Studente 
+\shape default
+che estende 
+\shape italic
+Persona
+\shape default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ also
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ ensures (
+\backslash
+result).length() > 20;
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ */
+\end_layout
+
+\begin_layout Plain Layout
+
+@Override
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ /*@ non_null @*/String toString() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return nome + " " + cognome + ", " + annocorso + " anno, voti: " + voti.toString
+(); 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Implicazione
+\end_layout
+
+\begin_layout Standard
+Vi sono 4 tipi di implicazione che si possono inserire nei contratti JML:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+==>
+\series default
+ (implica)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Utilizzato insieme ai quantificatori universali e esistenziali, si veda
+ la sezione dedicata.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+<==
+\series default
+ (segue)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Utilizzato per rendere più chiari i metodi 
+\shape italic
+equals
+\shape default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+//@ ensures (voto == ((Voto)obj).voto) <== (
+\backslash
+result == true);
+\end_layout
+
+\begin_layout Plain Layout
+
+@Override
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ boolean equals(Object obj) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (!(obj instanceof Voto)) return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	return voto.equals(((Voto)obj).voto);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+<==>
+\series default
+ (se e solo se)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Utilissimo in diversi casi, come nei metodi 
+\shape italic
+compareTo
+\shape default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ ensures (voto <= other.voto) <==> (
+\backslash
+result <= 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (voto >= other.voto) <==> (
+\backslash
+result >= 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  @*/
+\end_layout
+
+\begin_layout Plain Layout
+
+@Override
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ int compareTo(/*@ non_null @*/ Voto other) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return voto.compareTo(other.getVoto()); 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+<=!=>
+\series default
+ (non (se e solo se))
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Questa implicazione è stata evitata perché rende difficile la lettura dei
+ contratti.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Qualificatore universale e esistenziale
+\end_layout
+
+\begin_layout Standard
+JML permette l'uso dei qualificatori universale (
+\begin_inset Formula $\forall$
+\end_inset
+
+) e esistenziale (
+\begin_inset Formula $\exists$
+\end_inset
+
+), rispettivamente con le keywords 
+\series bold
+
+\backslash
+forall
+\series default
+ e 
+\series bold
+
+\backslash
+exists
+\series default
+.
+ Questo semplifica notevolmente la scrittura dei contratti.
+\end_layout
+
+\begin_layout Standard
+Esempio dal metodo 
+\shape italic
+getMax()
+\shape default
+ di Studente che ritorna il voto più alto nella 
+\shape italic
+SortedList
+\shape default
+ di Studente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*@ ensures (
+\backslash
+forall int i; i >= 0 && i < getNumeroVoti() ==> (
+\backslash
+result).compareTo(voti.get(i)) >= 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+  @ 	 && (
+\backslash
+exists int i; i >= 0 && i < getNumeroVoti() ==> (
+\backslash
+result).equals(voti.get(i)));
+\end_layout
+
+\begin_layout Plain Layout
+
+  @*/
+\end_layout
+
+\begin_layout Plain Layout
+
+public /*@ pure @*/ Voto getMax() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return voti.get(voti.size() - 1); // La lista è ordinata in maniera non decrescen
+te.
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+assert
+\end_layout
+
+\begin_layout Standard
+Gli assert permettono di inserire dei controlli di condizioni in punti all'inter
+no del codice.
+ Questa funzionalità, disponibile anche in Java, si usa con la keyword 
+\series bold
+assert
+\series default
+.
+ Tuttavia nel codice non sono state usate volutamente.
+ Infatti in un linguaggio di Design by Contract a mio parere la presenza
+ di assert sottolinea dei problemi di design, probabilmente il fatto che
+ il metodo fa più di una cosa, e quindi si consiglia il re-design del metodo,
+ estraendone e separandone le funzionalità differenti per poter poi mettere
+ pre/postcondizioni.
+\end_layout
+
+\begin_layout Standard
+Se proprio risultasse necessario utilizzare delle assert, quelle di JML
+ sono più espressive, infatti permettono l'utilizzo dei qualificatori universale
+ e esistenziale.
+\end_layout
+
+\begin_layout Subsection
+Invarianti
+\end_layout
+
+\begin_layout Standard
+Viene detto invariante una condizione che deve valere prima e dopo ogni
+ invocazione di un metodo sull'oggetto in questione.
+ Gli invarianti sono molto utili, infatti ci permettono di sintetizzare
+ il contratto di una intera classe e dei suoi metodi in un unico punto,
+ evitando di doverlo ripetere nelle pre/postcondizioni dei singoli metodi.
+\end_layout
+
+\begin_layout Standard
+JML ci permette di specificare gli invarianti con la keyword 
+\series bold
+\shape italic
+invariant
+\series default
+\shape default
+
+\begin_inset space ~
+\end_inset
+
+che può essere anche preceduta da 
+\series bold
+\shape italic
+private
+\series default
+\shape default
+ se l'invariante fa riferimento a campi privati della classe.
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+Persona
+\shape default
+ impone che non siano validi nomi e cognomi vuoti:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class Persona {
+\end_layout
+
+\begin_layout Plain Layout
+
+	/*@ private invariant nome != ""
+\end_layout
+
+\begin_layout Plain Layout
+
+	  @      && cognome != "";
+\end_layout
+
+\begin_layout Plain Layout
+
+	  @*/
+\end_layout
+
+\begin_layout Plain Layout
+
+  ...
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+Studente
+\shape default
+ impone che l'anno di corso sia sempre maggiore di 0:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class Studente extends Persona {
+\end_layout
+
+\begin_layout Plain Layout
+
+	//@ private invariant (annocorso >= 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+  ...
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+Voto
+\shape default
+ impone quali siano i voti validi.
+ Si noti che questo è l'unico contratto che descrive quali siano i voti
+ validi, quindi in caso si volesse cambiare il meccanismo dei voti e permettere
+ i voti fino al 32, basterebbe cambiare questo contratto (e l'implementazione
+ di conseguenza).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class Voto implements Comparable<Voto> {
+\end_layout
+
+\begin_layout Plain Layout
+
+	//@ private invariant (voto >= 18) && (voto <= 30);
+\end_layout
+
+\begin_layout Plain Layout
+
+  ...
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+SortedList
+\shape default
+ impone che la lista sia ordinata in maniera non decrescente.
+ Anche qui si noti che questo è l'unico contratto che descrive che la classe
+ rappresenta una lista ordinata.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class SortedList<T extends Comparable<? super T>> {
+\end_layout
+
+\begin_layout Plain Layout
+
+	//@ invariant (
+\backslash
+forall int i; (i >= 0 && i < size()); get(i).compareTo(get(i+1)) <= 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  ...
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Demo con tracce di esecuzione con violazione dei contratti
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+package university;
+\end_layout
+
+\begin_layout Plain Layout
+
+public class Demo {
+\end_layout
+
+\begin_layout Plain Layout
+
+	public static void main(String[] args) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		Studente enrico = new Studente("Enrico", "Bacis");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// ERROR:
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Studente enrico = new Studente("", "Bacis");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Studente enrico = new Studente("Enrico", "");
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Inserisco 4 voti
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.aggiungiVoto(30);
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.aggiungiVoto(27);
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.aggiungiVoto(18);
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.aggiungiVoto(28);
+\end_layout
+
+\begin_layout Plain Layout
+
+		// ERROR:
+\end_layout
+
+\begin_layout Plain Layout
+
+		// enrico.aggiungiVoto(17);
+\end_layout
+
+\begin_layout Plain Layout
+
+		// enrico.aggiungiVoto(31);
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Verifichiamo che la lista sia ordinata
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Voti Inseriti: " + enrico.getNumeroVoti());
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println(enrico);
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Modifico l'anno di corso
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println();
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.incrementaAnnocorso();
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Anno di corso: " + enrico.getAnnocorso());
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Verifica di max, min, numerovoti
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println();
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Voto più basso: " + enrico.getMin());
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Secondo voto più basso: " + enrico.getVoto(1));
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Secondo voto più alto:  "
+\end_layout
+
+\begin_layout Plain Layout
+
+		                   + enrico.getVoto(enrico.getNumeroVoti() - 2));
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println("Voto più alto:  " + enrico.getMax());
+\end_layout
+
+\begin_layout Plain Layout
+
+		//ERROR:
+\end_layout
+
+\begin_layout Plain Layout
+
+		// System.out.println("Voto inesistente: " + enrico.getVoto(-1));
+\end_layout
+
+\begin_layout Plain Layout
+
+		// System.out.println("Voto inesistente: "
+\end_layout
+
+\begin_layout Plain Layout
+
+		                      + enrico.getVoto(enrico.getNumeroVoti()));
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Cambio di identità
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.setNome("Buffer");
+\end_layout
+
+\begin_layout Plain Layout
+
+		enrico.setCognome("Overflow");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// ERROR:
+\end_layout
+
+\begin_layout Plain Layout
+
+		// enrico.setNome("");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// enrico.setCognome("");
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println();
+\end_layout
+
+\begin_layout Plain Layout
+
+		System.out.println(enrico);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Supporto allo sviluppo [MAKE]
+\end_layout
+
+\begin_layout Standard
+Volendo l'utilizzo del tool make (
+\begin_inset CommandInset href
+LatexCommand href
+name "http://en.wikipedia.org/wiki/Make_(software)"
+target "http://en.wikipedia.org/wiki/Make_(software)"
+
+\end_inset
+
+) da un po' di tempo, ho deciso di iniziare scrivendo un Makefile di supporto
+ allo sviluppo di codice JML utilizzando la libreria OpenJML.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Customize this part on your setting
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SRCDIR      = src
+\end_layout
+
+\begin_layout Plain Layout
+
+OPENJMLLIB  = lib/openjml.jar
+\end_layout
+
+\begin_layout Plain Layout
+
+PACKAGE     = university
+\end_layout
+
+\begin_layout Plain Layout
+
+MAINCLASS   = Demo
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Customize this is you are not on Linux/Mac
+\end_layout
+
+\begin_layout Plain Layout
+
+# (a better way would be to switch to Linux/Mac)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SEP   = /
+\end_layout
+
+\begin_layout Plain Layout
+
+CPSEP = :
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Do not change after this point unless you know what you are doing
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ifeq ($(SRCDIR),)
+\end_layout
+
+\begin_layout Plain Layout
+
+  SRCDIR = .
+\end_layout
+
+\begin_layout Plain Layout
+
+endif
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ifeq ($(PACKAGE),)
+\end_layout
+
+\begin_layout Plain Layout
+
+  MAIN = $(MAINCLASS)
+\end_layout
+
+\begin_layout Plain Layout
+
+else
+\end_layout
+
+\begin_layout Plain Layout
+
+  MAIN = $(PACKAGE).$(MAINCLASS)
+\end_layout
+
+\begin_layout Plain Layout
+
+endif
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SOURCES  = $(wildcard $(addprefix $(SRCDIR)$(SEP)$(PACKAGE)$(SEP)*, java))
+\end_layout
+
+\begin_layout Plain Layout
+
+CLASSES  = $(addsuffix .class, $(basename $(SOURCES)))
+\end_layout
+
+\begin_layout Plain Layout
+
+OPENJML  = $(CURDIR)$(SEP)$(OPENJMLLIB)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+run: all
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+all: clean clearscr rac exec
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rac: clearscr
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Compiling with OpenJML (RAC)...'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@java -jar "$(OPENJML)" -rac -noPurityCheck $(SOURCES)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+exec:
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Executing with OpenJML...'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@cd $(SRCDIR) && java -cp "$(OPENJML)$(CPSEP)." $(MAIN)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+check: clearscr
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Checking with OpenJML ...'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@java -jar "$(OPENJML)" -check -noPurityCheck $(SOURCES)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+check-purity: clearscr
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Checking with OpenJML (Purity enabled with hidden openjml.jar errors)
+ ...'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@java -jar "$(OPENJML)" -check $(SOURCES) | awk "/^$(SRCDIR)/,/ +
+\backslash
+^$$/"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+check-purity-all: clearscr
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Checking with OpenJML (Purity enabled) ...'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+	@java -jar "$(OPENJML)" -check $(SOURCES)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+clean:
+\end_layout
+
+\begin_layout Plain Layout
+
+	@rm -rf $(CLASSES)
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Done Cleaning'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo ''
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+clearscr:
+\end_layout
+
+\begin_layout Plain Layout
+
+	@clear
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+help:
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'Usage: make [TARGET]'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo 'TARGETS:'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  all                (=make) compile and execute with OpenJML (RAC).'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  rac                compile only with OpenJML (RAC).'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  exec               execute with OpenJML without recompiling.'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  check              check with OpenJML.'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  check-purity       check with OpenJML and Purity (lib warnings
+ disabled).'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  check-purity-all   check with OpenJML and Purity (lib warnings
+ enabled).'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  clean              clean class files.'
+\end_layout
+
+\begin_layout Plain Layout
+
+	@echo '  help               print this message.'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il target di default invocato con il comando 
+\shape italic
+make
+\shape default
+ si occupa di compilare il codice presente nella 
+\shape italic
+SRCDIR
+\shape default
+ con il RAC di OpenJML e di eseguirlo attivando i controlli in runtime.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Abstract State Machines
+\end_layout
+
+\begin_layout Section
+Descrizione del progetto
+\end_layout
+
+\begin_layout Standard
+In primo luogo l'idea era stata quella di dare una rappresentazione ASM
+ della macchina a stati utilizzata da Martin Fowler
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "http://martinfowler.com/books/uml.html"
+target "http://martinfowler.com/books/uml.html"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ nel libro UML Distilled: un sistema di sicurezza a cui fa capo un coniglio
+ mannaro (tanto caro al Prof.
+ Salvaneschi).
+\end_layout
+
+\begin_layout Standard
+Tuttavia questa non poneva delle grandi difficoltà dato che gli stati erano
+ minimali, così come le informazioni da salvare.
+ Si è quindi deciso di analizzare la procedura che controlla la registrazione
+ dei voti di una Università, per riprendere il tema dei progetti di C++
+ e di JML.
+ In questo caso ci si è focalizzati più sull'aspetto di sicurezza, quindi
+ permettendo solamente ai professori registrati nel sistema di inserire
+ voti per gli Studenti.
+\end_layout
+
+\begin_layout Standard
+Il progetto deve rispettare le seguenti specifiche:
+\end_layout
+
+\begin_layout Itemize
+Registrazione da parte dei professori di voti (validi) nella lista di voti
+ degli studenti registrati.
+\end_layout
+
+\begin_layout Itemize
+Assicurazione che solamente i professori abbiano accesso al menu per l'inserimen
+to dei voti.
+\end_layout
+
+\begin_layout Itemize
+Possibilità di effettuare il logout da parte del Professore.
+\end_layout
+
+\begin_layout Itemize
+Registrazione in sequenza ordinata in maniera temporale dei voti per lo
+ studente.
+\end_layout
+
+\begin_layout Itemize
+Visualizzazione di tutti i voti dello studente.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Macchina a stati
+\end_layout
+
+\begin_layout Standard
+In base alle specifiche si è dapprima scritta la macchina a stati del progetto.
+ Il formato è quello standard per le macchine a stati descritte attraverso
+ UML.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/asm/state-diagram.png
+	lyxscale 30
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Standard Library
+\end_layout
+
+\begin_layout Standard
+Si è fatto uso della Standard Library soprattutto per quanto riguarda l'utilizzo
+ di Sequence, String, e funzioni su di esse come toString, concat per le
+ stringhe, or per i valori Booleani.
+ Si veda il codice per maggiori dettagli.
+\end_layout
+
+\begin_layout Section
+Domini
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+domain Voto subsetof Integer
+\end_layout
+
+\begin_layout Plain Layout
+
+abstract domain Professore
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic abstract domain Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+enum domain Stati = { ATTESA_USERNAME | ATTESA_PASSWORD | MENU
+\end_layout
+
+\begin_layout Plain Layout
+
+                    | ATTESA_STUDENTE | MENU_STUDENTE | AGGIUNTA_VOTO }
+\end_layout
+
+\begin_layout Plain Layout
+
+enum domain Comandi = { SCELTA_STUDENTE | LOGOUT }
+\end_layout
+
+\begin_layout Plain Layout
+
+enum domain ComandiStudente = { AGGIUNGI_VOTO | STAMPA_VOTI | INDIETRO }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Voto è un subset di Integer, successivamente verrà meglio caratterizzato
+ per i valori che può assumere.
+\end_layout
+
+\begin_layout Itemize
+Professore e Studente sono degli abstract domain, sono come delle classi
+ che non sono subset di altre classi.
+\end_layout
+
+\begin_layout Itemize
+Studente è una classe dinamica perché lascia spazio all'inserimento di nuovi
+ studenti oltre a quelli definiti nel file.
+\end_layout
+
+\begin_layout Itemize
+Stati, Comandi e ComandiStudente sono degli enum e rappresentano gli stati
+ della macchina a stati il primo, i comandi disponibili dal menù il secondo
+ e i comandi disponibili dal menù studente il terzo.
+\end_layout
+
+\begin_layout Section
+Funzioni
+\end_layout
+
+\begin_layout Subsection
+Funzioni dinamiche
+\end_layout
+
+\begin_layout Standard
+La keyword dynamic indica che il valore della funzione può cambiare valore
+ con il tempo, quindi è una variabile.
+\end_layout
+
+\begin_layout Subsubsection
+Controllate
+\end_layout
+
+\begin_layout Standard
+Sono le funzioni che possono essere lette e scritte solo dalla macchina
+ a stati.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+dynamic controlled outMsg: Any
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic controlled statoSistema: Stati
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic controlled professoreCorrente: Professore
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic controlled studenteCorrente: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic controlled getVoti: Studente -> Seq(Voto)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Any indica che 
+\shape italic
+outMsg
+\shape default
+ (che è il messaggio di output del sistema) può assumere valori di qualsiasi
+ dominio.
+\end_layout
+
+\begin_layout Subsubsection
+Monitorate
+\end_layout
+
+\begin_layout Standard
+Queste funzioni possono essere scritte sono dall'environment, ma possono
+ essere anche lette dalla macchina a stati.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+dynamic monitored comando: Comandi
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored comandoStudente: ComandiStudente
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored professore: Professore
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored studente: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored password: String
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored nome: String
+\end_layout
+
+\begin_layout Plain Layout
+
+dynamic monitored voto: Voto
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si usano questo tipo di variabili per inserire comandi e valori nella macchina
+ a stati dall'esterno.
+ È possibile utilizzare sia un file che la console per l'inserimento di
+ questi valori.
+\end_layout
+
+\begin_layout Section
+Funzioni statiche
+\end_layout
+
+\begin_layout Subsection
+Costanti
+\end_layout
+
+\begin_layout Standard
+Queste variabili non possono mai cambiare valore.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+static gargantini: Professore
+\end_layout
+
+\begin_layout Plain Layout
+
+static scandurra: Professore
+\end_layout
+
+\begin_layout Plain Layout
+
+static enrico: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+static secondo: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+static terzo: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+static quarto: Studente
+\end_layout
+
+\begin_layout Plain Layout
+
+static debugFlag: Boolean
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Derivate
+\end_layout
+
+\begin_layout Standard
+Queste costanti derivano da funzioni che assegnano staticamente i loro valori
+ ma possono variare per via degli argomenti.
+ Sono come delle tabelle con dei valori che non si possono cambiare.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+derived getPassword: Professore -> String
+\end_layout
+
+\begin_layout Plain Layout
+
+derived getNome: Professore -> String
+\end_layout
+
+\begin_layout Plain Layout
+
+derived getNome: Studente -> String
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le funzioni dalle quali derivano si vedranno tra poco.
+\end_layout
+
+\begin_layout Section
+Funzioni
+\end_layout
+
+\begin_layout Standard
+Qui vengono definiti i domini, le costanti e le funzioni.
+\end_layout
+
+\begin_layout Itemize
+Voto può assumere solo valori interi compresi tra 18 e 30.
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+debugFlag
+\shape default
+ può valere 
+\shape italic
+true
+\shape default
+ o 
+\shape italic
+false
+\shape default
+.
+ Se è 
+\shape italic
+true
+\shape default
+ permette l'accesso anche con password errata.
+ Questo è utile per poter utilizzare il run randomly, che altrimenti non
+ indovinerebbe mai le password.
+\end_layout
+
+\begin_layout Itemize
+le funzioni vengono definite attraverso degli 
+\shape italic
+switch
+\shape default
+ sull'oggetto che viene passato come parametro.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+domain Voto = {18..30}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function debugFlag = false
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+function getPassword($p in Professore) =
+\end_layout
+
+\begin_layout Plain Layout
+
+    switch($p)
+\end_layout
+
+\begin_layout Plain Layout
+
+        case gargantini : "johnmitchell"
+\end_layout
+
+\begin_layout Plain Layout
+
+        case scandurra  : "iloveasmeta"
+\end_layout
+
+\begin_layout Plain Layout
+
+    endswitch
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function getNome($p in Professore) =
+\end_layout
+
+\begin_layout Plain Layout
+
+    switch($p)
+\end_layout
+
+\begin_layout Plain Layout
+
+        case gargantini : "Angelo Gargantini"
+\end_layout
+
+\begin_layout Plain Layout
+
+        case scandurra  : "Patrizia Scandurra"
+\end_layout
+
+\begin_layout Plain Layout
+
+    endswitch
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function getNome($s in Studente) =
+\end_layout
+
+\begin_layout Plain Layout
+
+    switch($s)
+\end_layout
+
+\begin_layout Plain Layout
+
+        case enrico  : "Enrico Bacis"
+\end_layout
+
+\begin_layout Plain Layout
+
+        case secondo : "Secondo"
+\end_layout
+
+\begin_layout Plain Layout
+
+        case terzo   : "Terzo"
+\end_layout
+
+\begin_layout Plain Layout
+
+        case quarto  : "Quarto"
+\end_layout
+
+\begin_layout Plain Layout
+
+    endswitch
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Regole
+\end_layout
+
+\begin_layout Subsection
+Stampa Voti
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_stampaVoti( $s in Studente ) =
+\end_layout
+
+\begin_layout Plain Layout
+
+    outMsg := toString( getVoti( $s ) )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Stampa i voti contenuti nella sequenza di voti dello studente.
+\end_layout
+
+\begin_layout Standard
+Si noti l'utilizzo di:
+\end_layout
+
+\begin_layout Description
+macro
+\begin_inset space ~
+\end_inset
+
+rule Si utilizza per definire delle regole Macro (in questo caso senza parametri
+).
+\end_layout
+
+\begin_layout Description
+:= Si utilizza per fare l'update di una funzione dinamica.
+\end_layout
+
+\begin_layout Subsection
+Attesa Username
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_attesaUsername =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = ATTESA_USERNAME ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        if ( exist unique $p in Professore with $p = professore ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+            par
+\end_layout
+
+\begin_layout Plain Layout
+
+                professoreCorrente := professore
+\end_layout
+
+\begin_layout Plain Layout
+
+                statoSistema := ATTESA_PASSWORD
+\end_layout
+
+\begin_layout Plain Layout
+
+                outMsg := "Inserire password"
+\end_layout
+
+\begin_layout Plain Layout
+
+            endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+        endif
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questa regola viene eseguita quando la macchina a stati è in attesa dello
+ username.
+ Effettua un controllo sul fatto che la variabile monitorata 
+\shape italic
+professore
+\shape default
+ inserita dall'esterno sia effettivamente un Professore; se così non è,
+ non si procede all'inserimento della Password.
+\end_layout
+
+\begin_layout Description
+if
+\begin_inset space ~
+\end_inset
+
+[else]
+\begin_inset space ~
+\end_inset
+
+endif Si utilizza per inserire blocchi condizionali.
+\end_layout
+
+\begin_layout Description
+exist[
+\begin_inset space ~
+\end_inset
+
+unique]
+\begin_inset space ~
+\end_inset
+
+with Si utilizza per verificare che esista una (o anche uno sola) entità
+ nel dominio che soddisfi la condizione 
+\shape italic
+with
+\shape default
+.
+\end_layout
+
+\begin_layout Description
+par
+\begin_inset space ~
+\end_inset
+
+endpar Si utilizza per inserire operazioni in parallelo.
+\end_layout
+
+\begin_layout Subsection
+Attesa Password
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_attesaPassword =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = ATTESA_PASSWORD ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        let ( $password = getPassword(professoreCorrente) ) in
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( or( debugFlag, $password = password ) ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := MENU
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := concat( "Buongiorno Prof.
+ ", getNome( professoreCorrente ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            else
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := ATTESA_USERNAME
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := "Accesso negato"
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+        endlet
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Controlla che la password relativa al Professore selezionato sia quella
+ corretta.
+ Se è così porta al menù, altrimenti rimanda alla schermata di inserimento
+ dello username.
+\end_layout
+
+\begin_layout Subsection
+Menu
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_menu =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = MENU ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        par
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( comando = SCELTA_STUDENTE ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := ATTESA_STUDENTE
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := "Inserire lo studente"
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( comando = LOGOUT ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := ATTESA_USERNAME
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := "Arrivederci"
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+        endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da la possibilità al Professore di procedere con la scelta di uno studente
+ da modificare oppure effettuare il logout e tornare alla schermata di inserimen
+to username.
+\end_layout
+
+\begin_layout Subsection
+Scelta Studente
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_sceltaStudente =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = ATTESA_STUDENTE ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        if ( exist unique $s in Studente with $s = studente ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+            seq
+\end_layout
+
+\begin_layout Plain Layout
+
+                studenteCorrente := studente
+\end_layout
+
+\begin_layout Plain Layout
+
+                statoSistema := MENU_STUDENTE
+\end_layout
+
+\begin_layout Plain Layout
+
+                outMsg := concat("Menu: ",getNome(studenteCorrente))
+\end_layout
+
+\begin_layout Plain Layout
+
+            endseq
+\end_layout
+
+\begin_layout Plain Layout
+
+        endif
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da la possibilità di scegliere lo studente da modificare.
+ Anche qui viene controllato che lo studente sia effettivamente uno studente
+ del dominio degli studenti.
+\end_layout
+
+\begin_layout Standard
+Si noti l'utilizzo di:
+\end_layout
+
+\begin_layout Description
+seq
+\begin_inset space ~
+\end_inset
+
+endseq Si utilizza per inserire operazioni in sequenza.
+ Questo è utilizzato perché è importante in questo caso che lo 
+\shape italic
+studenteCorrente
+\shape default
+ venga aggiornato prima di modificare 
+\shape italic
+outMsg
+\shape default
+ in cui viene utilizzato.
+ Si sarebbe potuto anche mettere 
+\shape italic
+studente
+\shape default
+\bar under
+ 
+\bar default
+per ovviare al problema.
+\end_layout
+
+\begin_layout Subsection
+Menu Studente
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_menuStudente =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = MENU_STUDENTE ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        par
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( comandoStudente = AGGIUNGI_VOTO ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := AGGIUNTA_VOTO
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := "Inserire il voto"
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( comandoStudente = STAMPA_VOTI ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                r_stampaVoti[ studenteCorrente ]
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+            if ( comandoStudente = INDIETRO ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+                par
+\end_layout
+
+\begin_layout Plain Layout
+
+                    statoSistema := MENU
+\end_layout
+
+\begin_layout Plain Layout
+
+                    outMsg := "Menu principale"
+\end_layout
+
+\begin_layout Plain Layout
+
+                endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+            endif
+\end_layout
+
+\begin_layout Plain Layout
+
+        endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Permette al Professore di selezionare se aggiungere un voto, stampare i
+ voti correnti o tornare al menu principale.
+\end_layout
+
+\begin_layout Subsection
+Aggiunta Voto
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+macro rule r_aggiuntaVoto =
+\end_layout
+
+\begin_layout Plain Layout
+
+    if ( statoSistema = AGGIUNTA_VOTO ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+        if ( exist $v in Voto with $v = voto ) then
+\end_layout
+
+\begin_layout Plain Layout
+
+            par
+\end_layout
+
+\begin_layout Plain Layout
+
+                getVoti( studenteCorrente ) :=
+\end_layout
+
+\begin_layout Plain Layout
+
+                    append( getVoti( studenteCorrente ), voto )
+\end_layout
+
+\begin_layout Plain Layout
+
+                outMsg := concat( "Voto inserito: ", toString( voto ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+                statoSistema := MENU_STUDENTE
+\end_layout
+
+\begin_layout Plain Layout
+
+            endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+        endif
+\end_layout
+
+\begin_layout Plain Layout
+
+    endif
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se il voto inserito dall'utente è un voto valido nel dominio Voto, allora
+ questo viene accodato alla sequenza dei voti dello studente.
+\end_layout
+
+\begin_layout Section
+Main
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+main rule r_Main =
+\end_layout
+
+\begin_layout Plain Layout
+
+seq
+\end_layout
+
+\begin_layout Plain Layout
+
+    r_attesaUsername[]
+\end_layout
+
+\begin_layout Plain Layout
+
+    par
+\end_layout
+
+\begin_layout Plain Layout
+
+        r_attesaPassword[]
+\end_layout
+
+\begin_layout Plain Layout
+
+        r_menu[]
+\end_layout
+
+\begin_layout Plain Layout
+
+        r_sceltaStudente[]
+\end_layout
+
+\begin_layout Plain Layout
+
+        r_menuStudente[]
+\end_layout
+
+\begin_layout Plain Layout
+
+        r_aggiuntaVoto[]
+\end_layout
+
+\begin_layout Plain Layout
+
+    endpar
+\end_layout
+
+\begin_layout Plain Layout
+
+endseq
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La regola principale da cui viene eseguito il programma.
+ Questa si limita a chiamare le altre regole degli stati, anche se, grazie
+ alla variabile 
+\shape italic
+statoSistema
+\shape default
+, solo una regola verrà attivata per volta.
+\end_layout
+
+\begin_layout Section
+Stato Iniziale
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+default init initial_state:
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    function statoSistema = ATTESA_USERNAME
+\end_layout
+
+\begin_layout Plain Layout
+
+    function outMsg = "Inserire username"
+\end_layout
+
+\begin_layout Plain Layout
+
+    function getVoti( $s in Studente ) = []
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lo stato iniziale si occupa di inizializzare la macchina a stati con:
+\end_layout
+
+\begin_layout Itemize
+Lo stato 
+\shape italic
+ATTESA_USERNAME
+\end_layout
+
+\begin_layout Itemize
+Un messaggio da stampare ad output
+\end_layout
+
+\begin_layout Itemize
+Una sequenza vuota che rappresenta i voti per ogni Studente nel dominio
+ degli Studenti.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Python e Ruby
+\end_layout
+
+\begin_layout Section
+Python
+\end_layout
+
+\begin_layout Standard
+Python è un linguaggio dal mio punto di vista fantastico che penso sia fondament
+ale imparare in un percorso di studi informatico perché apre la mente e
+ aiuta il programmatore ad affacciarsi ai problemi con una rinnovata motivazione
+ e uno sguardo diverso.
+\end_layout
+
+\begin_layout Standard
+La filosofia di Python è quella di migliorare la leggibilità del codice,
+ quindi utilizza una sintassi chiara ed espressiva.
+ Python supporta diversi paradigmi di programmazione come OOP, programmazione
+ imperativa e funzionale.
+ È un linguaggio dinamicamente tipato, questo significa che non si specificano
+ i tipi delle variabili, ma viene fatta inferenza del tipo quando si definisce
+ la variabile, inoltre è più corretto chiamare queste entità 
+\begin_inset Quotes eld
+\end_inset
+
+nomi
+\begin_inset Quotes erd
+\end_inset
+
+ o 
+\begin_inset Quotes eld
+\end_inset
+
+alias
+\begin_inset Quotes erd
+\end_inset
+
+, infatti i nomi possono essere legati a tipi diversi di variabile durante
+ il codice con un semplice assegnamento.
+\end_layout
+
+\begin_layout Standard
+L'interprete di Python è disponibile per diversi sistemi operativi e l'implement
+azione più utilizzata è CPython, che segue un modello di sviluppo community-base
+d grazie alle PEP
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Python Enhancement Proposal
+\end_layout
+
+\end_inset
+
+, che sono proposte alla community dagli sviluppatori, discusse e in caso
+ integrate nel linguaggio.
+ Altri interpreti famosi sono Jython (basato su JVM) e IronPython (basato
+ su framework .NET)
+\end_layout
+
+\begin_layout Subsection
+La filosofia
+\end_layout
+
+\begin_layout Standard
+La filosofia con cui scrivere i programmi è egregiamente espressa nella
+ PEP20 (the Zen of Python) che si può leggere aprendo un qualsiasi interprete
+ di Python e scrivendo: 
+\shape italic
+import this
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Beautiful is better than ugly.
+\end_layout
+
+\begin_layout Plain Layout
+Explicit is better than implicit.
+\end_layout
+
+\begin_layout Plain Layout
+Simple is better than complex.
+\end_layout
+
+\begin_layout Plain Layout
+Complex is better than complicated.
+\end_layout
+
+\begin_layout Plain Layout
+Flat is better than nested.
+\end_layout
+
+\begin_layout Plain Layout
+Sparse is better than dense.
+\end_layout
+
+\begin_layout Plain Layout
+Readability counts.
+\end_layout
+
+\begin_layout Plain Layout
+Special cases aren't special enough to break the rules.
+\end_layout
+
+\begin_layout Plain Layout
+Although practicality beats purity.
+\end_layout
+
+\begin_layout Plain Layout
+Errors should never pass silently.
+\end_layout
+
+\begin_layout Plain Layout
+Unless explicitly silenced.
+\end_layout
+
+\begin_layout Plain Layout
+In the face of ambiguity, refuse the temptation to guess.
+\end_layout
+
+\begin_layout Plain Layout
+There should be one-- and preferably only one --obvious way to do it.
+\end_layout
+
+\begin_layout Plain Layout
+Although that way may not be obvious at first unless you're Dutch.
+\end_layout
+
+\begin_layout Plain Layout
+Now is better than never.
+\end_layout
+
+\begin_layout Plain Layout
+Although never is often better than *right* now.
+\end_layout
+
+\begin_layout Plain Layout
+If the implementation is hard to explain, it's a bad idea.
+\end_layout
+
+\begin_layout Plain Layout
+If the implementation is easy to explain, it may be a good idea.
+\end_layout
+
+\begin_layout Plain Layout
+Namespaces are one honking great idea -- let's do more of those!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Storia
+\end_layout
+
+\begin_layout Standard
+Python è stato ideato da Guido van Rossum alla fine degli anni novanta come
+ successore del linguaggio ABC (che a sua volta era stato ispirato dal linguaggi
+o SETL del 1969).
+ Il nome fu scelto per via della passione di van Rossum per i Monty Python
+ e per la loro serie televisiva.
+\end_layout
+
+\begin_layout Standard
+Python 2.0 è stato rilasciato nel 2000, con l'aggiunta di funzionalità come
+ il garbage collector e il supporto per Unicode; inoltre in questo momento
+ si ha avuto il passaggio al community-driven development di Python.
+\end_layout
+
+\begin_layout Standard
+Python 3.0 è stato rilasciato alla fine del 2008 e non è retrocompatibile
+ con le versioni precedenti; un esempio banale è quello della divisione,
+ infatti fino a Python 2.0 
+\shape italic
+a/b
+\shape default
+ tra due numeri interi dava come risultato un intero (come nella migliore
+ tradizione), ma in Python 3.0 si è finalmente andati oltre questa tradizione,
+ come è giusto che sia per un linguaggio dinamicamente tipato dove il dato
+ è più importante del suo contenitore, e quindi 
+\shape italic
+a/b
+\shape default
+ anche tra interi può restituire un numero in virgola mobile (per ottenere
+ la divisione intera si usa ora 
+\shape italic
+a//b
+\shape default
+).
+\end_layout
+
+\begin_layout Standard
+Python ha vinto per 2 anni il premio TIOBE per il linguaggio di programmazione
+ dell'anno (nel 2007 e nel 2010).
+\end_layout
+
+\begin_layout Subsection
+Confronto con altri linguaggi visti
+\end_layout
+
+\begin_layout Standard
+È molto interessante confrontare Python con i linguaggi di programmazione
+ e le caratteristiche di funzionamento dei linguaggi analizzati durante
+ il corso.
+\end_layout
+
+\begin_layout Itemize
+Per prima cosa si ricordi che Python (nel suo utilizzo classico) è un linguaggio
+ interpretato.
+ Non vi è quindi distinzione tra 
+\shape italic
+compile-time
+\shape default
+ e 
+\shape italic
+run-time
+\shape default
+, quindi si eliminano tutte le problematiche relative a:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Early Binding
+\end_layout
+
+\begin_layout Itemize
+Late Binding
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Come secondo aspetto, la sua caratteristica di essere dinamicamente tipato
+ elide i problemi che si possono presentare quando il tipo del riferimento
+ è diverso dal tipo dell'oggetto e quindi non vi sono le problematiche relative
+ a:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Single e Double Dispatching
+\end_layout
+
+\begin_layout Itemize
+Dynamic Binding
+\end_layout
+
+\begin_layout Itemize
+Non è inoltre possibile fare overloading di metodi con stesso numero di
+ parametri ma differenti tipi (per il fatto che il concetto di tipo non
+ è legato alla variabile)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Non ci sono puntatori e le strutture dati possono essere visitate solamente
+ attraverso gli iteratori.
+\end_layout
+
+\begin_layout Itemize
+Esiste un solo tipo di passaggio di variabile che è quello per reference.
+ Se il tipo passato è mutable come le liste, allora potrà essere modificato
+ dalla funzione, se è immutable come le tuple no.
+ Inoltre riassegnando il nome ad un'altra variabile all'interno di una funzione,
+ questo non modificherà il valore al di fuori di tale funzione (all'esterno
+ il nome continua a puntare dove ha sempre puntato).
+\end_layout
+
+\begin_layout Itemize
+C'è un garbage collector che si occupa di pulire tutti gli oggetti che non
+ sono più referenziati da alcun nome.
+\end_layout
+
+\begin_layout Itemize
+Tutti gli oggetti di Python sono salvati sullo heap, non è quindi possibile
+ avere dei dangling pointers.
+\end_layout
+
+\begin_layout Itemize
+I blocchi non sono espressi da parentesi graffe ma solo attraverso l'indentazion
+e.
+\end_layout
+
+\begin_layout Itemize
+È permessa l'ereditarietà multipla.
+\end_layout
+
+\begin_layout Itemize
+In genere i programmi vengono scritti partendo da questa base:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+main():
+\end_layout
+
+\begin_layout Plain Layout
+
+	# codice
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if __name__ == '__main__':
+\end_layout
+
+\begin_layout Plain Layout
+
+	main()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo perché i sorgenti Python possono essere importati, con la direttiva
+ 
+\shape italic
+import
+\shape default
+ all'interno di altri sorgenti, e in questo modo si differenzia il comportamento
+ in base al fatto che il codice venga eseguito a partire da questo file
+ oppure solo importato in un altro (in tal caso non viene chiamata la funzione
+ 
+\shape italic
+main()
+\shape default
+).
+\end_layout
+
+\begin_layout Standard
+Nonostante questo per questa trattazione verrà spesso utilizzato semplicemente
+ il codice.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Esempi
+\end_layout
+
+\begin_layout Standard
+Ho avuto il piacere di seguire due corsi online di Python sulla piattaforma
+ Udacity, il primo era un corso di introduzione alla programmazione con
+ Python, che mi ha convinto sempre più che questo debba essere il linguaggio
+ insegnato in Informatica I al posto di C, almeno per i corsi di laurea
+ che non sono Ingegneria Informatica; il secondo corso è stato il migliore
+ corso online che io abbia avuto il piacere di frequentare, e che consiglio
+ a tutti: 
+\shape italic
+Design of Computer Programs
+\shape default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.udacity.com/course/cs212"
+target "https://www.udacity.com/course/cs212"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ tenuto da Peter Norvig
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "http://en.wikipedia.org/wiki/Peter_Norvig"
+target "http://en.wikipedia.org/wiki/Peter_Norvig"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In questa parte, piuttosto che focalizzarsi su un progetto unico in cui
+ non verrebbero messi in rilievo le cose più interessanti, verranno mostrati
+ alcuni costrutti e funzionalità interessanti di Python.
+\end_layout
+
+\begin_layout Subsubsection
+Passaggio di funzioni
+\end_layout
+
+\begin_layout Standard
+In Python le funzioni sono membri di prim'ordine, possono essere ad esempio
+ passate come parametro per altre funzioni.
+ Vediamo l'esempio della funzione max, a cui viene passata la funzione di
+ 
+\shape italic
+peso
+\shape default
+ che si occupa di dare un peso agli elementi per riuscire a trovarne il
+ massimo che desideriamo; in questo caso vogliamo ottenere ad esempio la
+ stringa più lunga, per farlo utilizziamo come funzione di peso la funzione
+ 
+\shape italic
+len
+\shape default
+ che può essere utilizzata su tutti gli oggetti iterabili per trovarne la
+ dimensione.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+stringhe = ["a", "bb", "ccc", "dddd", "z"]
+\end_layout
+
+\begin_layout Plain Layout
+
+print max(stringhe, key=len)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo stampa a video 
+\shape italic
+dddd
+\shape default
+ che è la stringa più lunga.
+\end_layout
+
+\begin_layout Subsubsection
+Lambda Functions
+\end_layout
+
+\begin_layout Standard
+Possiamo anche definire della funzioni veloci senza nome dette lambda
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "http://it.wikipedia.org/wiki/Lambda_calcolo"
+target "http://it.wikipedia.org/wiki/Lambda_calcolo"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, e volendo assegnare anche dei nomi temporanei a queste funzioni.
+ Si voglia adesso sommare il peso delle lettere nelle stringhe e trovare
+ il massimo in base a questo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+stringhe = ["a", "bb", "ccc", "dddd", "z"]
+\end_layout
+
+\begin_layout Plain Layout
+
+fun = lambda stringa: sum(ord(c) - 96 for c in stringa.lower())
+\end_layout
+
+\begin_layout Plain Layout
+
+print max(stringhe, key=fun)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questo stampa 
+\shape italic
+z
+\shape default
+ che è la stringa che la cui somma dei caratteri è maggiore.
+ La lambda ha come parametri le variabili espresse prima del simbolo due
+ punti, e con quelle si può operare per ritornare un risultato.
+\end_layout
+
+\begin_layout Standard
+Si noti inoltre che in Python non è necessario utilizzare la keyword 
+\series bold
+return
+\series default
+ infatti l'ultimo statement eseguito all'interno di un blocco è automaticamente
+ il valore di ritorno di quel blocco.
+\end_layout
+
+\begin_layout Subsubsection
+Paradigma MapReduce
+\end_layout
+
+\begin_layout Standard
+Un indispensabile paradigma di programmazione è il MapReduce
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "http://en.wikipedia.org/wiki/MapReduce"
+target "http://en.wikipedia.org/wiki/MapReduce"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ che si compone di:
+\end_layout
+
+\begin_layout Description
+map una funzione che mappa i valori di una lista in degli altri, come possono
+ essere le funzioni di peso
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+stringhe = ["a", "bb", "ccc", "dddd", "z"]
+\end_layout
+
+\begin_layout Plain Layout
+
+print map(lambda stringa: sum(ord(c) - 96 for c in stringa.lower()), stringhe)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+reduce si occupa di unire poi i risultati di questa lista nel seguente modo:
+ 
+\shape italic
+reduce(f, [a, b, c]) == f( f(a, b), c)
+\end_layout
+
+\begin_layout Standard
+Si voglia ora ottenere il prodotto dei pesi sopra
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+stringhe = ["a", "bb", "ccc", "dddd", "z"]
+\end_layout
+
+\begin_layout Plain Layout
+
+mapfun = lambda stringa: sum(ord(c) - 96 for c in stringa.lower())
+\end_layout
+
+\begin_layout Plain Layout
+
+redfun = lambda x, y: x * y
+\end_layout
+
+\begin_layout Plain Layout
+
+print reduce(redfun, map(mapfun, stringhe))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Higher Order Functions, closures, caching e ritorno di funzioni
+\end_layout
+
+\begin_layout Standard
+Essendo le funzioni first class members, possono anche essere definite all'inter
+no di altre funzioni, e anche ritornate.
+ Il vantaggio di fare questo deriva dalle closures, infatti quando si esegue
+ questo passaggio, la funzione si assicura che quando verrà invocata, avrà
+ accesso a tutte le variabili a cui aveva accesso quando è stata invocata,
+ e anche con il loro valore.
+ Questo concetto si chiama 
+\series bold
+chiusura funzionale
+\series default
+\shape italic
+.
+\end_layout
+
+\begin_layout Standard
+Vediamo un esempio di funzione che wrappa una funzione che gli viene passata
+ come parametro in un'altra che fa caching dei risultati.
+ Questo concetto è 
+\series bold
+fondamentale 
+\series default
+in programmazione funzionale, dove, se non si ha caching si rischia di ripetere
+ i calcoli moltissime volte.
+ Esemplifichiamo questo concetto con l'esempio del calcolo dell'n-esimo
+ numero della sequenza di Fibonacci:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def cache(fn):
+\end_layout
+
+\begin_layout Plain Layout
+
+    dict = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+    def _f(x):
+\end_layout
+
+\begin_layout Plain Layout
+
+        if x not in dict:
+\end_layout
+
+\begin_layout Plain Layout
+
+            dict[x] = fn(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+        return dict[x]
+\end_layout
+
+\begin_layout Plain Layout
+
+    _f.dict = dict
+\end_layout
+
+\begin_layout Plain Layout
+
+    return _f
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+def fatt(n):
+\end_layout
+
+\begin_layout Plain Layout
+
+    return 1 if (n == 0) else n * fatt(n-1)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+fatt = cache(fatt)
+\end_layout
+
+\begin_layout Plain Layout
+
+print fatt(10)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In questo codice sono stati utilizzati anche dizionari e si noti inoltre
+ che vengono assegnati a una funzione dei metodi! Possiamo infatti vedere
+ l'intera cache della funzione con:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+print fatt.dict
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Decorator Pattern
+\end_layout
+
+\begin_layout Standard
+Si noti che è stato utilizzato un decorator pattern su 
+\shape italic
+fatt
+\shape default
+, che è stata wrappata (o decorata) da un'altra funzione.
+ Questo concetto è talmente fondamentale in Python che ha una sintassi specifica
+, avremmo potuto infatti usare:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+@cache         # fatt = cache(fatt)
+\end_layout
+
+\begin_layout Plain Layout
+
+def fatt(n):
+\end_layout
+
+\begin_layout Plain Layout
+
+    return 1 if (n == 0) else n * fatt(n-1)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+yield e generatori
+\end_layout
+
+\begin_layout Standard
+Si possono creare dei generatori che generano dei dati in maniera lazy ogni
+ volta che viene invocato il comando next su di essi (si noti che le funzioni
+ come map, sum e tutte quelle che utilizzano iteratori utilizzano proprio
+ questo comando).
+ Vediamo un generatore di numeri di Fibonacci:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def fib_range():
+\end_layout
+
+\begin_layout Plain Layout
+
+    a, b = 0, 1
+\end_layout
+
+\begin_layout Plain Layout
+
+    while True:
+\end_layout
+
+\begin_layout Plain Layout
+
+        yield a
+\end_layout
+
+\begin_layout Plain Layout
+
+        a, b = b, a + b
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La parola chiave 
+\series bold
+yield
+\series default
+ indica che il flusso della funzione va in pausa in quel punto generando
+ il dato, quando verrà riesumata ripartirà da questo punto e, grazie alla
+ chiusura funzionale, utilizzerà gli stessi dati, come se non fosse mai
+ stata fermata.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Ruby
+\end_layout
+
+\begin_layout Standard
+Ruby è, tra i linguaggi Object Oriented che conosco, quello che più si distacca
+ dagli altri, offrendo al programmatore una elasticità espressiva e una
+ gamma di costrutti difficile da trovare in altri linguaggi.
+ Anche in questo caso ho avuto il piacere di frequentare il corso online
+ dell'università di Berkley dedicato a Ruby e a Ruby on Rails, di seguito
+ verranno quindi presentati gli aspetti più interessanti che ho trovato
+ in Ruby grazie a questo corso.
+\end_layout
+
+\begin_layout Subsection
+Storia
+\end_layout
+
+\begin_layout Standard
+Ruby è un linguaggio interpretato completamente a oggetti.
+ Il progetto è nato nel 1993 come progetto personale del giapponese Yukihiro
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Matz
+\begin_inset Quotes erd
+\end_inset
+
+ Matsumoto, Ruby è stato il primo linguaggio di programmazione sviluppato
+ in Oriente a guadagnare abbastanza popolarità da superare la barriera linguisti
+ca che separa l'informatica nipponica da quella internazionale.
+\end_layout
+
+\begin_layout Standard
+Il linguaggio che ha maggiormente ispirato l'autore è lo Smalltalk, da cui
+ Ruby ha tratto la maggior parte delle sue caratteristiche.
+ A seguire ci sono il Lisp (ed in generale i linguaggi funzionali), da cui
+ provengono le chiusure (blocchi o proc, in Ruby), e il Perl, per la sintassi
+ e l'espressività.
+ Negli ultimi anni la popolarità di Ruby ha subito una forte impennata,
+ dovuta alla comparsa di framework di successo per lo sviluppo di applicazioni
+ web, come Ruby On Rails.
+\end_layout
+
+\begin_layout Subsubsection
+Versioni
+\end_layout
+
+\begin_layout Standard
+La prima versione pubblica di Ruby è stata annunciata su un newsgrup giapponese
+ il a dicembre del 1995 e già a questo stadio dello sviluppo erano presenti
+ molti degli aspetti di Ruby come il design Object Oriented, i mixin, gli
+ iteratori, le closures, la gestione delle eccezioni e il garbage collector.
+\end_layout
+
+\begin_layout Standard
+Si ha poi avuto un costante sviluppo fino ad arrivare alla versione 1.8 nell'agos
+to del 2003.
+ Questa versione, che ora è stata deprecata perché non più compatibile con
+ Ruby 1.9, è stata stabile per lungo tempo e largamente utilizzata; è su
+ questa versione che è stato sviluppato il framework Ruby on Rails (approdato
+ nel 2005) che ha reso famoso Ruby.
+\end_layout
+
+\begin_layout Standard
+Nel 2007 è stata rilasciata la versione 1.9, non retrocompatibile con la
+ 1.8.
+ Questa versione ha aggiunto tra le altre cose una sintassi per le lambda-functi
+ons.
+\end_layout
+
+\begin_layout Standard
+Per febbraio 2013, a giorni quindi dal momento in cui questo testo viene
+ scritto, verrà rilasciata la versione stabile di Ruby 2.0, che è stata annunciat
+a essere completamente retrocompatibile con la versione 1.9.
+\end_layout
+
+\begin_layout Subsubsection
+Implementazioni dell'interprete
+\end_layout
+
+\begin_layout Standard
+L'interprete ufficiale di Ruby è 
+\shape italic
+Matz's Ruby Interpreter
+\shape default
+ anche noto semplicemente come 
+\shape italic
+MRI
+\shape default
+.
+ Questa implementazione p scritta in C e utilizza una virtual machine ad-hoc
+ per Ruby.
+ Esistono tuttavia altre implementazioni.
+ Le più note sono:
+\end_layout
+
+\begin_layout Description
+JRuby implementazione Java che gira su JVM
+\end_layout
+
+\begin_layout Description
+Rubinius Virtual Machine scritta in bytecode C++ che utilizza LLVM per compilare
+ in linguaggio macchina il codice a runtime.
+ Il compilatore bytecode e molte classi principali sono scritte in Ruby.
+\end_layout
+
+\begin_layout Description
+IronRuby Implementation che sfrutta il framework .NET
+\end_layout
+
+\begin_layout Subsection
+Confronto con altri linguaggi
+\end_layout
+
+\begin_layout Standard
+Il confronto è molto simile a quello visto per Python, quindi si trattano
+ qui le principali differenze proprio da Python
+\end_layout
+
+\begin_layout Itemize
+Le stringhe sono mutable
+\end_layout
+
+\begin_layout Itemize
+Si possono creare costanti (non si usa la keyword 
+\series bold
+const
+\series default
+ ma semplicemente si usa la prima lettera maiuscola)
+\end_layout
+
+\begin_layout Itemize
+C'è solo un tipo di container, Array, ed è mutable.
+\end_layout
+
+\begin_layout Itemize
+Tutto è un oggetto, non esistono tipi primitivi, anche scrivendo 5 è un
+ oggetto! Questo ci permette di scrivere dei cicli for semplicemente utilizzando
+ metodi come 
+\shape italic
+times
+\shape default
+ o 
+\shape italic
+each
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+5.times { print "Ciao!" }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+I blocchi sono delimitati da 
+\shape italic
+{...}
+\shape default
+ (generalmente usato quando i blocchi sono su una riga sola) o da 
+\shape italic
+do...end
+\shape default
+ (generalmente usato quando i blocchi sono su più righe).
+\end_layout
+
+\begin_layout Itemize
+Non si accede mai a degli attributi direttamente, tutto è un metodo, inoltre
+ con Syntactic Sugar, spesso non ce ne si accorge perché la parentesi per
+ le chiamate dei metodi sono spesso omesse.
+\end_layout
+
+\begin_layout Itemize
+Esistono le keyword 
+\series bold
+private
+\series default
+ e 
+\series bold
+protected
+\series default
+ al posto della convenzione di nomi di Python.
+\end_layout
+
+\begin_layout Itemize
+Non c'è eredità multipla, si usano i mixin, che sono simili alle interfacce
+ perché generalmente si scrivono per modellare 
+\shape italic
+comportamenti
+\shape default
+ ma possono portare anche codice.
+\end_layout
+
+\begin_layout Itemize
+C'è il concetto di 
+\series bold
+classi aperte
+\series default
+ quindi si possono aprire classi anche già definite in qualsiasi punto e
+ inserire degli altri metodi, anche le classi built-in!
+\end_layout
+
+\begin_layout Itemize
+Solo 
+\shape italic
+false
+\shape default
+ e 
+\shape italic
+nil
+\shape default
+ sono valutati come falsi nelle condizioni, qualsiasi altra cosa è valutata
+ come vera.
+\end_layout
+
+\begin_layout Subsection
+Esempi Base
+\end_layout
+
+\begin_layout Paragraph
+Stringhe palindrome
+\end_layout
+
+\begin_layout Standard
+Ruby permette l'utilizzo di caratteri anche non alfanumerici per i metodi,
+ generalmente metodi che ritornano un valore booleano si fanno terminare
+ con ?, mentre metodi che hanno come side-effect quello di modificare l'oggetto
+ sul quale vengono invocati si fanno terminare con !
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def palindrome?(string)
+\end_layout
+
+\begin_layout Plain Layout
+
+  string = string.downcase.scan(/[^
+\backslash
+W
+\backslash
+s_]/).join
+\end_layout
+
+\begin_layout Plain Layout
+
+  return string == string.reverse
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si noti il supporto alle espressioni regolari, nativo in Ruby.
+\end_layout
+
+\begin_layout Paragraph
+Raggruppare anagrammi
+\end_layout
+
+\begin_layout Standard
+È un gioco da ragazzi in Ruby combinare le stringhe presenti in un Array
+ in base a quelle che sono anagrammi con altri.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def combine_anagrams(words)
+\end_layout
+
+\begin_layout Plain Layout
+
+  words.group_by{|w| w.downcase.chars.sort.join}.values
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si vede qui l'utilizzo dei blocchi, questi sono come le lambda functions
+ viste precedentemente in Python
+\end_layout
+
+\begin_layout Subsection
+Metaprogrammazione
+\end_layout
+
+\begin_layout Standard
+La metaprogrammazione è anche conosciuta come metodi che scrivono metodi,
+ vediamo qui due esempi in Ruby.
+\end_layout
+
+\begin_layout Subsubsection
+Esempio di ereditarietà e attr_accessor
+\end_layout
+
+\begin_layout Standard
+Creiamo due classi Dessert e JellyBean che estende Dessert e mettiamoci
+ un po' di cose Ruby-style:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Dessert
+\end_layout
+
+\begin_layout Plain Layout
+
+  attr_accessor :name, :calories
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  def initialize(name, calories)
+\end_layout
+
+\begin_layout Plain Layout
+
+    @name = name
+\end_layout
+
+\begin_layout Plain Layout
+
+    @calories = calories
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  def healthy?
+\end_layout
+
+\begin_layout Plain Layout
+
+    return true if @calories < 200
+\end_layout
+
+\begin_layout Plain Layout
+
+    return false
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  def delicious?
+\end_layout
+
+\begin_layout Plain Layout
+
+    return true
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+class JellyBean < Dessert
+\end_layout
+
+\begin_layout Plain Layout
+
+  attr_accessor :flavor
+\end_layout
+
+\begin_layout Plain Layout
+
+  def initialize(name, calories, flavor)
+\end_layout
+
+\begin_layout Plain Layout
+
+    super name, calories
+\end_layout
+
+\begin_layout Plain Layout
+
+    @flavor = flavor
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  def delicious?
+\end_layout
+
+\begin_layout Plain Layout
+
+    return false if @flavor == "black licorice"
+\end_layout
+
+\begin_layout Plain Layout
+
+    return true
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Il metodo attr_accessor è un metodo che oltre a creare dei campi nella classe,
+ genera anche:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Un getter lo stesso nome dell'attributo
+\end_layout
+
+\begin_layout Itemize
+Un setter (un metodo attributo=) che setta il campo
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Il metodo initialize è il costruttore.
+\end_layout
+
+\begin_layout Itemize
+Si usa @ per accedere ai campi dell'istanza
+\end_layout
+
+\begin_layout Itemize
+le stringhe iniziate da : sono chiamate simboli e si usano quando si vuole
+ sottolineare che quella stringa è un nome di variabile.
+\end_layout
+
+\begin_layout Subsubsection
+attr_accessor_history
+\end_layout
+
+\begin_layout Standard
+Vogliamo ora scrivere un metodo disponibile in tutte le classi che si occupi
+ di generare un setter che mantenga anche la storia dei valori.
+ Vogliamo quindi scrivere un metametodo, cioè un metodo che genererà codice.
+\end_layout
+
+\begin_layout Standard
+Come prima cosa dobbiamo aprire la classe Class per rendere questo metodo
+ in ogni sottoclasse (tutte le classi ereditano da Class).
+\end_layout
+
+\begin_layout Standard
+Ci serviremo anche di class_eval che serve per valutare all'interno della
+ classe del codice che è scritto in una stringa!
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Class
+\end_layout
+
+\begin_layout Plain Layout
+
+  def attr_accessor_with_history(attr_name)
+\end_layout
+
+\begin_layout Plain Layout
+
+    attr_name = attr_name.to_s
+\end_layout
+
+\begin_layout Plain Layout
+
+    attr_reader attr_name
+\end_layout
+
+\begin_layout Plain Layout
+
+    attr_reader attr_name+"_history"
+\end_layout
+
+\begin_layout Plain Layout
+
+    class_eval %Q{
+\end_layout
+
+\begin_layout Plain Layout
+
+      def #{attr_name}=(value)
+\end_layout
+
+\begin_layout Plain Layout
+
+        @#{attr_name} = value
+\end_layout
+
+\begin_layout Plain Layout
+
+        @#{attr_name+"_history"} = [nil] if @#{attr_name+"_history"}.nil?
+\end_layout
+
+\begin_layout Plain Layout
+
+        @#{attr_name+"_history"} << value
+\end_layout
+
+\begin_layout Plain Layout
+
+      end
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+class Foo
+\end_layout
+
+\begin_layout Plain Layout
+
+  attr_accessor_with_history :bar
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f = Foo.new
+\end_layout
+
+\begin_layout Plain Layout
+
+f.bar = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+f.bar = 2
+\end_layout
+
+\begin_layout Plain Layout
+
+puts f.bar_history
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+%Q{}
+\shape default
+ è l'equivalente di una stringa doppio-quotata, come 
+\shape italic
+%q{}
+\shape default
+ è l'equivalente di una stringa mono-quotata, dove si vuole essere liberi
+ di utilizzare dei doppi apici senza dover fare escape degli stessi.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Stringa mono-quotata = stringa non mutabile, non valuta le cose al suo interno.
+\end_layout
+
+\begin_layout Itemize
+Stringa doppio-quotata = permette l'utilizzo di costrutti come 
+\shape italic
+#{var}
+\shape default
+ per inserire nella stringa il valore della variabile.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+attr_name è una variabile
+\end_layout
+
+\begin_layout Itemize
+attr_reader è un metodo che a sua volta è di metaprogrammazione
+\end_layout
+
+\begin_layout Subsubsection
+method_missing
+\end_layout
+
+\begin_layout Standard
+Quando un metodo non è definito su una classe, quando questo viene invocato,
+ prima di essere passato alla superclasse, viene invocato il metodo 
+\shape italic
+method_missing(method_id)
+\shape default
+ passando come simbolo il nome del metodo mancante.
+\end_layout
+
+\begin_layout Standard
+In questo modo si possono creare valangate di metodi in maniere semplicissime.
+ Questa è probabilmente una delle cose più belle di Ruby che io sappia fare.
+\end_layout
+
+\begin_layout Standard
+Ad esempio vogliamo aprire la classe Numeric e vorremmo aggiungere tutti
+ dei metodi per fare delle conversioni di valute.
+ Invece che fare ciò possiamo semplicemente utilizzare il metodo method_missing
+ insieme a un dizionario e il gioco è fatto!
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class Numeric
+\end_layout
+
+\begin_layout Plain Layout
+
+  @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019, 'dollar'
+ => 1}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  def method_missing(method_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+    singular_currency = method_id.to_s.gsub( /s$/, '')
+\end_layout
+
+\begin_layout Plain Layout
+
+    if @@currencies.has_key?(singular_currency)
+\end_layout
+
+\begin_layout Plain Layout
+
+      self * @@currencies[singular_currency]
+\end_layout
+
+\begin_layout Plain Layout
+
+    else
+\end_layout
+
+\begin_layout Plain Layout
+
+      super
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\end_layout
+
+\begin_layout Plain Layout
+
+  def in(currency)
+\end_layout
+
+\begin_layout Plain Layout
+
+    singular_currency = currency.to_s.gsub( /s$/, '')
+\end_layout
+
+\begin_layout Plain Layout
+
+    self / @@currencies[singular_currency]
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+puts 5.dollars.in(:euros)
+\end_layout
+
+\begin_layout Plain Layout
+
+puts 10.euros.in(:rupees)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+@@ indica delle variabili della classe.
+\end_layout
+
+\begin_layout Itemize
+Si usano delle espressioni regolari per rimuovere la s del plurale dai simboli.
+\end_layout
+
+\begin_layout Itemize
+È importante ricordarsi di effettuare la chiamata a 
+\shape italic
+super
+\shape default
+ in caso se non si decide di intraprendere delle azioni nella method_missing
+ in modo che l'interprete possa continuare a cercare il metodo delle superclassi
+ (infatti se method_missing non viene overridato, la chiamata a super è
+ l'unica cosa che effettua).
+\end_layout
+
+\begin_layout Subsubsection
+Palindromi nelle stringhe e negli enumerabili
+\end_layout
+
+\begin_layout Standard
+Possiamo aggiungere il metodo palindrome? alla classe String in modo che
+ sia accessibile su tutti gli oggetti di tipo stringa.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+class String
+\end_layout
+
+\begin_layout Plain Layout
+
+  def palindrome?
+\end_layout
+
+\begin_layout Plain Layout
+
+    string = self.downcase.scan(/[^
+\backslash
+W
+\backslash
+s_]/).join
+\end_layout
+
+\begin_layout Plain Layout
+
+    return string == string.reverse
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+puts "foo".palindrome?
+\end_layout
+
+\begin_layout Plain Layout
+
+puts "anna".palindrome?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In realtà però possiamo estendere il concetto di palindromo a tutti quegli
+ oggetti che sono iterabili.
+ In Ruby il modulo Enumerable è mixato con tutte le classi per le quali
+ si vuole che siano iterabili, quindi possiamo aprire direttamente questo
+ modulo ed inserire qui dentro il metodo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+module Enumerable
+\end_layout
+
+\begin_layout Plain Layout
+
+  def palindrome?
+\end_layout
+
+\begin_layout Plain Layout
+
+    a = self.map{|x| x}
+\end_layout
+
+\begin_layout Plain Layout
+
+    return a == a.reverse
+\end_layout
+
+\begin_layout Plain Layout
+
+  end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+puts [1,2,3,4,5].palindrome?
+\end_layout
+
+\begin_layout Plain Layout
+
+puts [1,2,3,2,1].palindrome?
+\end_layout
+
+\begin_layout Plain Layout
+
+puts (1..9).palindrome?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusioni
+\end_layout
+
+\begin_layout Standard
+Se paragonato ai linguaggi compilati staticamente tipati, come ad esempio
+ il C, la velocità di esecuzione non sono punti di forza dei linguaggi interpret
+ati dinamicamente tipati.
+\end_layout
+
+\begin_layout Standard
+È interessante però notare che esiste il progetto PyPy che è un compilatore
+ di Python scritto in Python e che ottiene delle ottime performances, pur
+ pagando un prezzo in termini di memoria utilizzata; un discorso analogo
+ vale per Rubinius.
+ Comunque, anche in questo modo un qualunque compito che preveda numerosi
+ calcoli puri non è adatto ad un programma Python.
+ 
+\end_layout
+
+\begin_layout Standard
+Le performance di Python sono invece allineate o addirittura superiori ad
+ altri linguaggi interpretati, quali PHP e Ruby, e in certe condizioni può
+ rivaleggiare anche con Java.
+\end_layout
+
+\begin_layout Standard
+Non va inoltre dimenticato che sia Python che Ruby permettono di scrivere
+ un'estensione in C o C++ e poi utilizzarla all'interno del codice, sfruttando
+ così l'elevata velocità di un linguaggio compilato solo nelle parti in
+ cui effettivamente serve e sfruttando invece la potenza e versatilità di
+ un linguaggio come Python o Ruby per tutto il resto del software.
+ 
+\end_layout
+
+\begin_layout Standard
+Nonostante il discorso delle performances, credo che questo aspetto sia
+ critico solo per una ristretta parte di progetti, ma credo che per la programma
+zione di tutti i giorni o per lo sviluppo di piccoli tools Python e Ruby
+ garantiscano numerosissimi vantaggi rispetto a C, C++ e Java, infatti permetton
+o di tralasciare tutte delle parti relative a tipi di passaggi, tipi, overload,
+ binding e cose complesse, concentrandosi invece sulle funzionalità di ciò
+ che scriviamo e sapendo che poi ci penseranno i nostri amati linguaggi,
+ seppur un po' più lenti, a far andare tutto per il meglio.
 \end_layout
 
 \end_body
