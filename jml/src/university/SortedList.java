@@ -3,7 +3,7 @@ package university;
 import java.util.ArrayList;
 
 public class SortedList<T extends Comparable<? super T>> {
-	//@ invariant (\forall int i; (i >= 0 && i < size()); get(i).compareTo(get(i+1)) <= 0);
+	//@ invariant (\forall int i; (i >= 0 && i < size()-1); get(i).compareTo(get(i+1)) <= 0);
 	
 	private /*@ spec_public @*/ ArrayList<T> list;
 	
